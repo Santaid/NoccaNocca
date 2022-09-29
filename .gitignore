@@ -4,3 +4,6 @@ Packages/
 ProjectSettings/
 UserSettings/
 Temp/
+.vscode/settings.json
+Assembly-CSharp.csproj
+NoccaNocca.sln
