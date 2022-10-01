@@ -228,7 +228,6 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
   m_Layer: 0
@@ -304,22 +303,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
---- !u!114 &963194229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a0015cd2cee04299b6835f30322a3ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  center: {x: 3, y: 0, z: 3.5}
-  axis1: {x: 0, y: 1, z: 0}
-  axis2: {x: 0, y: 0, z: 0}
-  period: 2
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,15 +326,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d51ea3392e21ba4dbf792051e338da3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zRotationSpeed: 250
-  fovMinLimit: 25
-  fovMaxLimit: 100
-  fovSpeed: 50
+  centerObject: {fileID: 1498670420}
+  rotationSpeed: {x: 0.08, y: 0.08}
   moveSpeed: 5
 --- !u!1 &1138524126
 GameObject:
