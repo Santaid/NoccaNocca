@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameMainScript : MonoBehaviour{
-	public int row = 5;
-	public int line = 6;
-	public GameObject player_cube_one;
-	public GameObject player_cube_two;
-	public GameObject clickPlace;
+	[SerializeField] private int row = 5;
+	[SerializeField] private int line = 6;
+	[SerializeField] private GameObject player_cube_one;
+	[SerializeField] private GameObject player_cube_two;
+	[SerializeField] private GameObject clickPlace;
 	List<GameObject> cubes = new List<GameObject>();
 	List<GameObject> clickPlaceList = new List<GameObject>();
 	int[,] board_state;
@@ -15,10 +15,10 @@ public class GameMainScript : MonoBehaviour{
 
 	public static GameMainScript instance;
 	public void Awake(){
-    if(instance == null){
-      instance = this;
-    }
-  }
+		if(instance == null){
+			instance = this;
+		}
+	}
 
     // Start is called before the first frame update
     void Start(){
@@ -87,7 +87,7 @@ public class GameMainScript : MonoBehaviour{
 			if(clickCount == 2){
 				move(from_x_store, from_y_store, x, y, now_color);
 				if(isEnd(board_state) == 1){
-					Debug.Log("黒の勝ち");
+					Debug.Log("白の勝ち");
 				}
 				printBoard();
 				clickCount = 0;
@@ -106,83 +106,83 @@ public class GameMainScript : MonoBehaviour{
 								board_state[from_x, from_y] -= color;
 								board_state[to_x, to_y] += color;
 							} else if(board_state[from_x, from_y] <= 6){
-								board_state[from_x, from_y] -= color * 2;
+								board_state[from_x, from_y] -= color << 1;
 								board_state[to_x, to_y] += color;
 							} else {
-								board_state[from_x, from_y] -= color * 4;
+								board_state[from_x, from_y] -= color << 2;
 								board_state[to_x, to_y] += color;
 							}
 							break;
 						case 1:
 							if(board_state[from_x, from_y] <= 2){
 								board_state[from_x, from_y] -= color;
-								board_state[to_x, to_y] += color * 2;
+								board_state[to_x, to_y] += color << 1;
 							} else if(board_state[from_x, from_y] <= 6){
-								board_state[from_x, from_y] -= color * 2;
-								board_state[to_x, to_y] += color * 2;
+								board_state[from_x, from_y] -= color << 1;
+								board_state[to_x, to_y] += color << 1;
 							} else {
-								board_state[from_x, from_y] -= color * 4;
-								board_state[to_x, to_y] += color * 2;
+								board_state[from_x, from_y] -= color << 2;
+								board_state[to_x, to_y] += color << 1;
 							}
 							break;
 						case 2:
 							if(board_state[from_x, from_y] <= 2){
 								board_state[from_x, from_y] -= color;
-								board_state[to_x, to_y] += color * 2;
+								board_state[to_x, to_y] += color << 1;
 							} else if(board_state[from_x, from_y] <= 6){
-								board_state[from_x, from_y] -= color * 2;
-								board_state[to_x, to_y] += color * 2;
+								board_state[from_x, from_y] -= color << 1;
+								board_state[to_x, to_y] += color << 1;
 							} else {
-								board_state[from_x, from_y] -= color * 4;
-								board_state[to_x, to_y] += color * 2;
+								board_state[from_x, from_y] -= color << 2;
+								board_state[to_x, to_y] += color << 1;
 							}
 							break;
 						case 3:
 							if(board_state[from_x, from_y] <= 2){
 								board_state[from_x, from_y] -= color;
-								board_state[to_x, to_y] += color * 4;
+								board_state[to_x, to_y] += color << 2;
 							} else if(board_state[from_x, from_y] <= 6){
-								board_state[from_x, from_y] -= color * 2;
-								board_state[to_x, to_y] += color * 4;
+								board_state[from_x, from_y] -= color << 1;
+								board_state[to_x, to_y] += color << 2;
 							} else {
-								board_state[from_x, from_y] -= color * 4;
-								board_state[to_x, to_y] += color * 4;
+								board_state[from_x, from_y] -= color << 2;
+								board_state[to_x, to_y] += color << 2;
 							}
 							break;
 						case 4:
 							if(board_state[from_x, from_y] <= 2){
 								board_state[from_x, from_y] -= color;
-								board_state[to_x, to_y] += color * 4;
+								board_state[to_x, to_y] += color << 2;
 							} else if(board_state[from_x, from_y] <= 6){
-								board_state[from_x, from_y] -= color * 2;
-								board_state[to_x, to_y] += color * 4;
+								board_state[from_x, from_y] -= color << 1;
+								board_state[to_x, to_y] += color << 2;
 							} else {
-								board_state[from_x, from_y] -= color * 4;
-								board_state[to_x, to_y] += color * 4;
+								board_state[from_x, from_y] -= color << 2;
+								board_state[to_x, to_y] += color << 2;
 							}
 							break;
 						case 5:
 							if(board_state[from_x, from_y] <= 2){
 								board_state[from_x, from_y] -= color;
-								board_state[to_x, to_y] += color * 4;
+								board_state[to_x, to_y] += color << 2;
 							} else if(board_state[from_x, from_y] <= 6){
-								board_state[from_x, from_y] -= color * 2;
-								board_state[to_x, to_y] += color * 4;
+								board_state[from_x, from_y] -= color << 1;
+								board_state[to_x, to_y] += color << 2;
 							} else {
-								board_state[from_x, from_y] -= color * 4;
-								board_state[to_x, to_y] += color * 4;
+								board_state[from_x, from_y] -= color << 2;
+								board_state[to_x, to_y] += color << 2;
 							}
 							break;
 						case 6:
 							if(board_state[from_x, from_y] <= 2){
 								board_state[from_x, from_y] -= color;
-								board_state[to_x, to_y] += color * 4;
+								board_state[to_x, to_y] += color << 2;
 							} else if(board_state[from_x, from_y] <= 6){
-								board_state[from_x, from_y] -= color * 2;
-								board_state[to_x, to_y] += color * 4;
+								board_state[from_x, from_y] -= color << 1;
+								board_state[to_x, to_y] += color << 2;
 							} else {
-								board_state[from_x, from_y] -= color * 4;
-								board_state[to_x, to_y] += color * 4;
+								board_state[from_x, from_y] -= color << 2;
+								board_state[to_x, to_y] += color << 2;
 							}
 							break;
 			}
@@ -219,7 +219,7 @@ public class GameMainScript : MonoBehaviour{
 							break;
 						case 5:
 							cubes.Add(Instantiate(player_cube_one, pos1, Quaternion.identity));
-            	cubes.Add(Instantiate(player_cube_two, pos2, Quaternion.identity));
+							cubes.Add(Instantiate(player_cube_two, pos2, Quaternion.identity));
 							break;
 						case 6:
 							cubes.Add(Instantiate(player_cube_two, pos1, Quaternion.identity));
