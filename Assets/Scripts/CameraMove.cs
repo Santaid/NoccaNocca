@@ -25,7 +25,10 @@ public class CameraMove : MonoBehaviour
             lastMousePosition = Input.mousePosition;
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8de0d7de43e79c12333d027fe47f5d6d7bb35afc
         // キーボードによるカメラ移動
         // if(Input.GetKey(KeyCode.A)){
         //     this.transform.position -= this.transform.right * moveSpeed * Time.deltaTime;
