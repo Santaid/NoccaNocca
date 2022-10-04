@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -452,8 +452,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 5
   line: 6
-  player_cube_one: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
-  player_cube_two: {fileID: 4716891117569718959, guid: be6ea68296b1b46cabbe8cd90023fe93, type: 3}
+  player_cube_one: {fileID: 4645731803930730673, guid: be6ea68296b1b46cabbe8cd90023fe93, type: 3}
+  player_cube_two: {fileID: 4716891117569718959, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
   click_place: {fileID: 5078952505310658753, guid: bb488f4367b3d7c48a2dacfa4ee5918e, type: 3}
 --- !u!4 &1304044515
 Transform:
