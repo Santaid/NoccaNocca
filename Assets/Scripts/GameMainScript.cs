@@ -11,7 +11,7 @@ public class GameMainScript : MonoBehaviour{
 	[SerializeField] private GameObject player_cube_one;
 	[SerializeField] private GameObject player_cube_two;
 	[SerializeField] private GameObject click_place;
-	int[,] board_state;
+	int[,] board_state; 
 	List<int[,]> former_boards = new List<int[,]>();
 
 	public static GameMainScript instance;

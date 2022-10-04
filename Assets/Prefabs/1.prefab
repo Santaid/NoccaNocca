@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4645731803930730676}
   - component: {fileID: 4645731803930730679}
   - component: {fileID: 4645731803930730678}
-  - component: {fileID: 1148740358213382510}
+  - component: {fileID: 3064696444904656156}
   m_Layer: 0
   m_Name: 1
   m_TagString: player_white
@@ -119,7 +119,7 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &1148740358213382510
+--- !u!114 &3064696444904656156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,6 +128,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4645731803930730673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c81e7ca8880c07e4c8fd93a34851230d, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a53e46dbb0c9174a92f6d6c84edf41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerIsSelected: 0
+  changed_shader: {fileID: 2100000, guid: ffff41f96ef0fd04e8f6adb3863f5e61, type: 2}
+  returned_shader: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}

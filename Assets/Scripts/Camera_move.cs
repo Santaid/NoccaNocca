@@ -51,7 +51,7 @@ public class Camera_move : MonoBehaviour
                        //オイラー角　-＞ 四元数
             Quaternion rotation = Quaternion.Euler(90, 0, -zRotation);
             transform.rotation = rotation;
-        }else if(Input.GetMouseButtonDown(0)){　//左クリックをクリック時
+        }else if(Input.GetMouseButtonDown(0)){//左クリックをクリック時
             mMouseState = MouseState.LeftMouseBtn; //mMouseState をLeftMouseBtnに変更
             //Debug.Log(GetType() + "mMouseState = " + mMouseState.ToString());
         }else if(Input.GetMouseButtonUp(0)){ //左クリックから離れたときに
