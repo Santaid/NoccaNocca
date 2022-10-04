@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameMainScript : MonoBehaviour{
-	private int White=1;
-	private int Black=2;
+	private int White=2;
+	private int Black=1;
 	private int Wall=15;
 	[SerializeField] private int row = 5;
 	[SerializeField] private int line = 6;
@@ -37,8 +37,8 @@ public class GameMainScript : MonoBehaviour{
 			board_state[i, 1] = Black;
 			board_state[i, line] = White;
 			// Vector3(row方向, 高さ, line方向)
-			Vector3 pos_white = new Vector3(i, 1, 1);
-			Vector3 pos_black = new Vector3(i, 1, line);
+			Vector3 pos_white = new Vector3(i, 1, line);
+			Vector3 pos_black = new Vector3(i, 1, 1);
 			Instantiate(player_cube_one, pos_white, Quaternion.identity);
 			Instantiate(player_cube_two, pos_black, Quaternion.identity);
 			// 移動先のタイル生成

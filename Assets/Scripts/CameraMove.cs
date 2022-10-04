@@ -14,9 +14,9 @@ public class CameraMove : MonoBehaviour
 
     void Update(){
         // ドラッグによる視点移動
-        if (Input.GetMouseButtonDown(0)){
+        if (Input.GetMouseButtonDown(2)){
             lastMousePosition = Input.mousePosition;
-        }else if (Input.GetMouseButton(0)){
+        }else if (Input.GetMouseButton(2)){
             var newAngle = Vector3.zero;
             newAngle.x = (Input.mousePosition.x - lastMousePosition.x) * rotationSpeed.x;
             newAngle.y = (lastMousePosition.y - Input.mousePosition.y) * rotationSpeed.y;
@@ -26,23 +26,23 @@ public class CameraMove : MonoBehaviour
         }
 
         // キーボードによるカメラ移動
-        if(Input.GetKey(KeyCode.A)){
-            this.transform.position -= this.transform.right * moveSpeed * Time.deltaTime;
-        }
-		if(Input.GetKey(KeyCode.D)){
-            this.transform.position += this.transform.right * moveSpeed * Time.deltaTime;
-        }
-		if(Input.GetKey(KeyCode.W)){
-			this.transform.position += this.transform.forward * moveSpeed * Time.deltaTime;
-        }
-		if(Input.GetKey(KeyCode.S)){
-			this.transform.position -= this.transform.forward * moveSpeed * Time.deltaTime;
-        }
-        if(Input.GetKey(KeyCode.LeftShift)){
-			this.transform.position -= this.transform.up * moveSpeed * Time.deltaTime;
-        }
-		if(Input.GetKey(KeyCode.Space)){
-			this.transform.position += this.transform.up * moveSpeed * Time.deltaTime;
-        }
+        // if(Input.GetKey(KeyCode.A)){
+        //     this.transform.position -= this.transform.right * moveSpeed * Time.deltaTime;
+        // }
+		// if(Input.GetKey(KeyCode.D)){
+        //     this.transform.position += this.transform.right * moveSpeed * Time.deltaTime;
+        // }
+		// if(Input.GetKey(KeyCode.W)){
+		// 	this.transform.position += this.transform.forward * moveSpeed * Time.deltaTime;
+        // }
+		// if(Input.GetKey(KeyCode.S)){
+		// 	this.transform.position -= this.transform.forward * moveSpeed * Time.deltaTime;
+        // }
+        // if(Input.GetKey(KeyCode.LeftShift)){
+		// 	this.transform.position -= this.transform.up * moveSpeed * Time.deltaTime;
+        // }
+		// if(Input.GetKey(KeyCode.Space)){
+		// 	this.transform.position += this.transform.up * moveSpeed * Time.deltaTime;
+        // }
     }
 }
