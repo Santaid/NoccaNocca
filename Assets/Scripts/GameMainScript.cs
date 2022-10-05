@@ -138,12 +138,12 @@ public class GameMainScript : MonoBehaviour{
 				}
 			}
 		}
-		if(black_top && !white_top){
+		if(black_top){
 			Debug.Log("Black won");
 			End=true;
 			return Black;
 		}
-		if(white_top && !black_top){
+		if(white_top){
 			Debug.Log("White won");
 			End=true;
 			return White;

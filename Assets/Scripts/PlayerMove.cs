@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
 			return;
 		}
 
-		if(Input.GetMouseButtonDown(0) && !PlayerIsSelected && !OtherIsSelected() && !ChoosedAsDestination() && isTurn()){
+		if(Input.GetMouseButtonDown(0) && !PlayerIsSelected && !OtherIsSelected() && !ChoosedAsDestination() && isTurn() && isTop()){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit)){
@@ -88,11 +88,11 @@ public class PlayerMove : MonoBehaviour
 		foreach(int[] item in canPut){
 			int val=GameMainScript.instance.board_state[item[0],item[1]];
 			if(val==0){ // 空白
-				Instantiate(ClickPlace_Tile,new Vector3(item[0],0.5f,item[1]),Quaternion.identity);
+				Instantiate(ClickPlace_Tile,new Vector3(item[0],0.501f,item[1]),Quaternion.identity);
 			}else if(val<=2){ // 一段
-				Instantiate(ClickPlace,new Vector3(item[0],1,item[1]),Quaternion.identity);
+				Instantiate(ClickPlace,new Vector3(item[0],1.01f,item[1]),Quaternion.identity);
 			}else{ //二段
-				Instantiate(ClickPlace,new Vector3(item[0],1.85f,item[1]),Quaternion.identity);
+				Instantiate(ClickPlace,new Vector3(item[0],1.86f,item[1]),Quaternion.identity);
 			}
 		}
 	}
@@ -155,13 +155,25 @@ public class PlayerMove : MonoBehaviour
 	// 選択した駒がターンと一致するか
 	bool isTurn(){
 		int turn=0;
-		if(this.gameObject.tag=="player_black"){
+		if(this.gameObject.CompareTag("player_black")){
 			turn=GameMainScript.instance.Black;
 		}
-		if(this.gameObject.tag=="player_white"){
+		if(this.gameObject.CompareTag("player_white")){
 			turn=GameMainScript.instance.White;
 		}
 		return (turn==GameMainScript.instance.Turn);
+	}
+
+	// オブジェクトが一番上にあるかチェック
+	bool isTop(){
+		int boardVal=GameMainScript.instance.board_state[(int)this.transform.position.x,(int)this.transform.position.z];
+		if(boardVal<=2){ // 一段以下
+			return true;
+		}else if(boardVal<=6){ // 二段
+			return (this.transform.position.y==1.861f);
+		}else{ //三段
+			return (this.transform.position.y==2.72f);
+		}
 	}
 
 	#endregion
