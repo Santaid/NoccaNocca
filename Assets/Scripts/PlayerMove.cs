@@ -10,6 +10,8 @@ public class PlayerMove : MonoBehaviour
 	public bool PlayerIsSelected = false;
 	bool DestinationIsSelected = false;
 	private List<int[]> canPut;
+	[SerializeField] private GameObject ClickPlace_Tile;
+	[SerializeField] private GameObject ClickPlace;
 	void Update(){
 		if(GameMainScript.instance.End){
 			return;
@@ -44,21 +46,14 @@ public class PlayerMove : MonoBehaviour
 					//string objName = player.name;
 					Return_shader();
 					// Debug.Log("player " + this.gameObject.name + "canceled");
-				}else if((hit.collider.gameObject.tag == "player_white" || hit.collider.gameObject.tag == "player_black" || hit.collider.gameObject.tag == "ClickPlace" ) && hit.collider.gameObject != this.gameObject){
+				}else if((hit.collider.gameObject.CompareTag("ClickPlace") || hit.collider.gameObject.CompareTag("ClickPlace_Tile")) && hit.collider.gameObject != this.gameObject){ // 移動先が合法かどうか
 					destination = hit.collider.gameObject;
-					// 移動先が合法かどうか
-					foreach (int[] item in canPut){
-						// Debug.Log("canput: "+item[0]+","+item[1]);
-						if(item[0]==(int)destination.transform.position.x && item[1]==(int)destination.transform.position.z){
-							DestinationIsSelected = true;
-							// Debug.Log("destination " + destination.name);
-							Move();
-							Return_shader();
-							GameMainScript.instance.changeTurn();
-							GameMainScript.instance.isEnd();
-							return;
-						}
-					}
+					DestinationIsSelected = true;
+					// Debug.Log("destination " + destination.name);
+					Move();
+					Return_shader();
+					GameMainScript.instance.changeTurn();
+					GameMainScript.instance.isEnd();
 					PlayerIsSelected=false;
 					Return_shader();
 				}
@@ -70,7 +65,7 @@ public class PlayerMove : MonoBehaviour
 	void Move(){
 		//二段目からの判定が変わる
 		Vector3 targetPosition;
-		if(destination.tag == "ClickPlace" ){
+		if(destination.tag == "ClickPlace_Tile" ){
 			targetPosition = new Vector3(destination.transform.position.x, destination.transform.position.y  + 0.5f, destination.transform.position.z);
 		}else{
 			targetPosition = new Vector3(destination.transform.position.x, destination.transform.position.y  + destination.transform.localScale.y + 0.05f, destination.transform.position.z);
@@ -90,6 +85,16 @@ public class PlayerMove : MonoBehaviour
 		this.gameObject.GetComponent<MeshRenderer>().material = changed_shader;
 		// 動ける場所を色変え
 		canPut=GameMainScript.instance.canMove((int)this.transform.position.x,(int)this.transform.position.z);
+		foreach(int[] item in canPut){
+			int val=GameMainScript.instance.board_state[item[0],item[1]];
+			if(val==0){ // 空白
+				Instantiate(ClickPlace_Tile,new Vector3(item[0],0.5f,item[1]),Quaternion.identity);
+			}else if(val<=2){ // 一段
+				Instantiate(ClickPlace,new Vector3(item[0],1,item[1]),Quaternion.identity);
+			}else{ //二段
+				Instantiate(ClickPlace,new Vector3(item[0],1.85f,item[1]),Quaternion.identity);
+			}
+		}
 	}
 	#endregion
 
@@ -97,6 +102,14 @@ public class PlayerMove : MonoBehaviour
 	public Material returned_shader;
 	void Return_shader(){
 		this.gameObject.GetComponent<MeshRenderer>().material = returned_shader;
+		GameObject[] clickPlaces=GameObject.FindGameObjectsWithTag("ClickPlace");
+		GameObject[] clickPlaces_Tile=GameObject.FindGameObjectsWithTag("ClickPlace_Tile");
+		foreach (GameObject gameObject in clickPlaces){
+			Destroy(gameObject);
+		}
+		foreach (GameObject gameObject in clickPlaces_Tile){
+			Destroy(gameObject);
+		}
 	}
 	#endregion
 
@@ -153,7 +166,3 @@ public class PlayerMove : MonoBehaviour
 
 	#endregion
 }
-
-
-
-

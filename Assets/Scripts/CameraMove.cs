@@ -9,7 +9,7 @@ public class CameraMove : MonoBehaviour
 {
     [SerializeField] private GameObject centerObject;
     [SerializeField] private Vector2 rotationSpeed=new Vector2(0.08f,0.08f);
-    [SerializeField] private float moveSpeed=5;
+    // [SerializeField] private float moveSpeed=5;
     private Vector2 lastMousePosition;
 
     void Update(){

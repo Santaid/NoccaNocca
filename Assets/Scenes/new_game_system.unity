@@ -333,7 +333,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerObject: {fileID: 1498670420}
   rotationSpeed: {x: 0.08, y: 0.08}
-  moveSpeed: 5
 --- !u!1 &1138524126
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +430,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32554182f2e1d4683bcc43fd03db7d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  End: 0
+  Turn: 0
+  White: 2
+  Black: 1
+  Wall: 15
   row: 5
   line: 6
   player_cube_one: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
