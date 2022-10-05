@@ -92,7 +92,7 @@ public class PlayerMove : MonoBehaviour
 			}else if(val<=2){ // 一段
 				Instantiate(ClickPlace,new Vector3(item[0],1.01f,item[1]),Quaternion.identity);
 			}else{ //二段
-				Instantiate(ClickPlace,new Vector3(item[0],1.86f,item[1]),Quaternion.identity);
+				Instantiate(ClickPlace,new Vector3(item[0],1.861f,item[1]),Quaternion.identity);
 			}
 		}
 	}
@@ -172,7 +172,7 @@ public class PlayerMove : MonoBehaviour
 		}else if(boardVal<=6){ // 二段
 			return (this.transform.position.y==1.861f);
 		}else{ //三段
-			return (this.transform.position.y==2.72f);
+			return (this.transform.position.y==2.712f);
 		}
 	}
 
