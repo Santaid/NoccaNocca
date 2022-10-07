@@ -8,15 +8,16 @@ public class GameMainScript : MonoBehaviour{
 	public int White=2;
 	public int Black=1;
 	public int Wall=15;
-	[SerializeField] private int row = 5;
-	[SerializeField] private int line = 6;
+	[SerializeField] public int row;
+	[SerializeField] public int line;
+	[SerializeField] public GameObject board;
+	[SerializeField] public GameObject myCamera;
 	[SerializeField] private GameObject player_cube_one;
 	[SerializeField] private GameObject player_cube_two;
 	[SerializeField] private GameObject click_place;
 	public int[,] board_state;
 	public int[,] board_top;
-	public List<int[]> former_move = new List<int[]>();
-	public List<int[,]> former_boards=new List<int[,]>();
+	public List<int[,]> former_boards = new List<int[,]>();
 
 	public static GameMainScript instance;
 	public void Awake(){
@@ -27,6 +28,9 @@ public class GameMainScript : MonoBehaviour{
 
     // Start is called before the first frame update
     void Start(){
+		myCamera.transform.position = new Vector3(0.5f + 0.5f * row, 2.8f, -(0.5f + 0.5f * line));
+		board.transform.position = new Vector3(0.5f + 0.5f * row, 0, 0.5f + 0.5f * line);
+		board.transform.localScale = new Vector3(row + 2, 1, line + 2);
 		Turn=Black;
 		board_state = new int[row + 2, line + 2];
 		board_top=new int[row+2,line+2];
@@ -42,6 +46,7 @@ public class GameMainScript : MonoBehaviour{
 				board_top[i,j]=0;
 			}
 		}
+
 		for(int i = 1; i <= row; i++){//初期配置
 			board_state[i, 1] = Black;
 			board_state[i, line] = White;
@@ -112,8 +117,6 @@ public class GameMainScript : MonoBehaviour{
 			board_state[to_x,to_z]+=Turn<<2;
 		}
 		board_top[to_x,to_z]=Turn;
-		// ボード情報を記録
-		former_move.Add(new int[]{from_x,from_z,to_x,to_z});
 		// Debug.Log("board : (from)"+board_state[from_x,from_z]+", (to)"+board_state[to_x,to_z]);
 		// Debug.Log("board_top : (from)"+board_top[from_x,from_z]+", (to)"+board_top[to_x,to_z]);
 	}
@@ -141,50 +144,16 @@ public class GameMainScript : MonoBehaviour{
 				}
 			}
 		}
-		if(black_top){
+		if(black_top && !white_top){
 			Debug.Log("Black won");
 			End=true;
 			return Black;
 		}
-		if(white_top){
+		if(white_top && !black_top){
 			Debug.Log("White won");
 			End=true;
 			return White;
 		}
 		return 0;
-	}
-
-	public void resetBoard(){
-		// 駒の削除
-		GameObject[] balckPieces=GameObject.FindGameObjectsWithTag("player_black");
-		GameObject[] whitePieces=GameObject.FindGameObjectsWithTag("player_white");
-		foreach(GameObject obj in balckPieces){
-			Destroy(obj);
-		}
-		foreach(GameObject obj in whitePieces){
-			Destroy(obj);
-		}
-
-		Turn=Black;
-		for(int i = 1; i <= row; i++){//初期配置
-			board_state[i, 1] = Black;
-			board_state[i, line] = White;
-			board_top[i,1]=Black;
-			board_top[i,line]=White;
-			// Vector3(row方向, 高さ, line方向)
-			Vector3 pos_white = new Vector3(i, 1, line);
-			Vector3 pos_black = new Vector3(i, 1, 1);
-			Instantiate(player_cube_one, pos_white, Quaternion.identity);
-			Instantiate(player_cube_two, pos_black, Quaternion.identity);
-		}
-	}
-
-	// 一手前を呼び出す
-	public void undo(){
-		changeTurn();
-		// リストの末尾要素を削除して末尾要素を呼び出す->一手前
-		former_move.RemoveAt(former_move.Count-1);
-		int[] index=former_move[former_move.Count-1];
-		move(index[2],index[3],index[0],index[1]);
 	}
 }

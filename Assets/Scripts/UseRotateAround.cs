@@ -6,8 +6,6 @@ using UnityEngine;
 public class UseRotateAround : MonoBehaviour{
     // 中心対象のオブジェクト
     [SerializeField] private GameObject centerObject;
-    // 中心点
-    private Vector3 center;
 
     // 回転軸
     Vector3 axis1 = Vector3.up;
@@ -16,24 +14,20 @@ public class UseRotateAround : MonoBehaviour{
     // 円運動周期
     [SerializeField] private float period = 2;
 
-    void Start() {
-        center=centerObject.transform.position;
-    }
-
     void Update(){
 		if (Input.GetKey (KeyCode.A)) {
-            this.transform.RotateAround(center, axis1, 360 / period * Time.deltaTime);
+            this.transform.RotateAround(centerObject.transform.position, axis1, 360 / period * Time.deltaTime);
         }
 		if (Input.GetKey (KeyCode.D)) {
-            this.transform.RotateAround(center, axis1, - 360 / period * Time.deltaTime);
+            this.transform.RotateAround(centerObject.transform.position, axis1, - 360 / period * Time.deltaTime);
         }
 		if (Input.GetKey (KeyCode.W)) {
 			axis2 = transform.right;
-        	this.transform.RotateAround(center, axis2, 360 / period * Time.deltaTime);
+        	this.transform.RotateAround(centerObject.transform.position, axis2, 360 / period * Time.deltaTime);
         }
 		if (Input.GetKey (KeyCode.S)) {
 			axis2 = transform.right;
-            this.transform.RotateAround(center, axis2, - 360 / period * Time.deltaTime);
+            this.transform.RotateAround(centerObject.transform.position, axis2, - 360 / period * Time.deltaTime);
         }
     }
 }

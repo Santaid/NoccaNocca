@@ -6,18 +6,15 @@ using System;
 public class PlayerMove : MonoBehaviour
 {
 	//public GameObject player;
-	private GameObject destination;
+	public GameObject destination;
 	public bool PlayerIsSelected = false;
-	bool DestinationIsSelected = false;
-	private List<int[]> canPut;
-	[SerializeField] private GameObject ClickPlace_Tile;
-	[SerializeField] private GameObject ClickPlace;
-	void Update(){
+	public bool DestinationIsSelected = false;
+	void Update(){       
 		if(GameMainScript.instance.End){
 			return;
 		}
-
-		if(Input.GetMouseButtonDown(0) && !PlayerIsSelected && !OtherIsSelected() && !ChoosedAsDestination() && isTurn() && isTop()){
+        
+		if(Input.GetMouseButtonDown(0) && PlayerIsSelected == false && OtherIsSelected() == false && ChoosedAsDestination() == false && isTurn() == true){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit)){
@@ -26,8 +23,10 @@ public class PlayerMove : MonoBehaviour
 					//player = hit.collider.gameObject; 
 					PlayerIsSelected = true;
 					//string objName = player.name;
+					IfCanBeChoosedAsDestination();
+                    //Debug.Log("player " + this.gameObject.name);
 					Change_shader();
-					// Debug.Log("player " + this.gameObject.name);
+				    
 					//Debug.Log(this.gameObject.transform.position);	
 					//GetLocalPosition();
 					//Debug.Log(PlayerIsSelected);
@@ -35,7 +34,7 @@ public class PlayerMove : MonoBehaviour
 				}
 			}
 		//移動先の判定以外を無視する
-		}else if(Input.GetMouseButtonDown(0) && PlayerIsSelected && !DestinationIsSelected && !OtherIsSelected()){
+		}else if(Input.GetMouseButtonDown(0) && PlayerIsSelected == true && DestinationIsSelected == false && OtherIsSelected() == false){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit)){
@@ -45,27 +44,30 @@ public class PlayerMove : MonoBehaviour
 					PlayerIsSelected = false;
 					//string objName = player.name;
 					Return_shader();
-					// Debug.Log("player " + this.gameObject.name + "canceled");
-				}else if((hit.collider.gameObject.CompareTag("ClickPlace") || hit.collider.gameObject.CompareTag("ClickPlace_Tile")) && hit.collider.gameObject != this.gameObject){ // 移動先が合法かどうか
+					Array.Clear(moveableObjs, 0, movePlace);
+					movePlace = 0;
+					//Debug.Log("player " + this.gameObject.name + "canceled");
+				}else if(/*(hit.collider.gameObject.tag == "ClickPlace" || hit.collider.gameObject.tag == "player_black" || hit.collider.gameObject.tag =="player_white")*/ IsInMoveableObjs(hit.collider.gameObject) && hit.collider.gameObject != this.gameObject){ // 移動先が合法かどうか
 					destination = hit.collider.gameObject;
 					DestinationIsSelected = true;
-					// Debug.Log("destination " + destination.name);
+					//Debug.Log("destination " + destination.name);
 					Move();
 					Return_shader();
+					Array.Clear(moveableObjs, 0, movePlace);
+					movePlace = 0;
 					GameMainScript.instance.changeTurn();
 					GameMainScript.instance.isEnd();
 					PlayerIsSelected=false;
-					Return_shader();
 				}
 			}
 		}
 	}
 
 	#region Move
-	void Move(){
+	public void Move(){
 		//二段目からの判定が変わる
 		Vector3 targetPosition;
-		if(destination.tag == "ClickPlace_Tile" ){
+		if(destination.tag == "ClickPlace" ){
 			targetPosition = new Vector3(destination.transform.position.x, destination.transform.position.y  + 0.5f, destination.transform.position.z);
 		}else{
 			targetPosition = new Vector3(destination.transform.position.x, destination.transform.position.y  + destination.transform.localScale.y + 0.05f, destination.transform.position.z);
@@ -80,43 +82,50 @@ public class PlayerMove : MonoBehaviour
 
 	#region Change_shader
 	public Material changed_shader;
-	void Change_shader(){
+    public Material destination_changed_shader;
+	public void Change_shader(){
 		// 選択した駒を色変え
 		this.gameObject.GetComponent<MeshRenderer>().material = changed_shader;
 		// 動ける場所を色変え
-		canPut=GameMainScript.instance.canMove((int)this.transform.position.x,(int)this.transform.position.z);
-		foreach(int[] item in canPut){
-			int val=GameMainScript.instance.board_state[item[0],item[1]];
-			if(val==0){ // 空白
-				Instantiate(ClickPlace_Tile,new Vector3(item[0],0.501f,item[1]),Quaternion.identity);
-			}else if(val<=2){ // 一段
-				Instantiate(ClickPlace,new Vector3(item[0],1.01f,item[1]),Quaternion.identity);
-			}else{ //二段
-				Instantiate(ClickPlace,new Vector3(item[0],1.861f,item[1]),Quaternion.identity);
-			}
-		}
+        
+        for(int i = 0; i < movePlace; i++){
+            moveableObjs[i].GetComponent<MeshRenderer>().material = destination_changed_shader;
+        }
+        //moveableObjs = null;
+        
+
 	}
 	#endregion
 
 	#region Return_shader
 	public Material returned_shader;
-	void Return_shader(){
-		this.gameObject.GetComponent<MeshRenderer>().material = returned_shader;
-		GameObject[] clickPlaces=GameObject.FindGameObjectsWithTag("ClickPlace");
-		GameObject[] clickPlaces_Tile=GameObject.FindGameObjectsWithTag("ClickPlace_Tile");
-		foreach (GameObject gameObject in clickPlaces){
-			Destroy(gameObject);
-		}
-		foreach (GameObject gameObject in clickPlaces_Tile){
-			Destroy(gameObject);
-		}
+    public Material white;
+    public Material black;
+    public Material clickPlace;
+
+	public void Return_shader(){
+		if(this.gameObject.tag == "player_black"){
+            this.gameObject.GetComponent<MeshRenderer>().material = black;
+        }else if(this.gameObject.tag == "player_white"){
+            this.gameObject.GetComponent<MeshRenderer>().material = white;
+        }
+
+        for(int i = 0; i < movePlace; i++){
+            if(moveableObjs[i].tag == "player_black"){
+                moveableObjs[i].GetComponent<MeshRenderer>().material = black;
+            }else if(moveableObjs[i].tag == "player_white"){
+                moveableObjs[i].GetComponent<MeshRenderer>().material = white;
+            }else if(moveableObjs[i].tag == "ClickPlace"){
+                moveableObjs[i].GetComponent<MeshRenderer>().material = clickPlace;
+            }
+        }
 	}
 	#endregion
 
 	#region OtherIsSelected & ChoosedAsDestination
 	GameObject[] player_black_chesses;
 	GameObject[] player_white_chesses;
-	bool OtherIsSelected(){
+	public bool OtherIsSelected(){
 		player_black_chesses = GameObject.FindGameObjectsWithTag("player_black");
 		player_white_chesses = GameObject.FindGameObjectsWithTag("player_white");
 		for(int i = 0; i < player_black_chesses.Length; i++){
@@ -133,7 +142,7 @@ public class PlayerMove : MonoBehaviour
 		return false;
 	}
 
-	bool ChoosedAsDestination(){
+	public bool ChoosedAsDestination(){
 		player_black_chesses = GameObject.FindGameObjectsWithTag("player_black");
 		player_white_chesses = GameObject.FindGameObjectsWithTag("player_white");
 		for(int i = 0; i < player_black_chesses.Length; i++){
@@ -153,28 +162,88 @@ public class PlayerMove : MonoBehaviour
 
 	#region Rule
 	// 選択した駒がターンと一致するか
-	bool isTurn(){
+	public bool isTurn(){
 		int turn=0;
-		if(this.gameObject.CompareTag("player_black")){
+		if(this.gameObject.tag=="player_black"){
 			turn=GameMainScript.instance.Black;
 		}
-		if(this.gameObject.CompareTag("player_white")){
+		if(this.gameObject.tag=="player_white"){
 			turn=GameMainScript.instance.White;
 		}
 		return (turn==GameMainScript.instance.Turn);
 	}
 
-	// オブジェクトが一番上にあるかチェック
-	bool isTop(){
-		int boardVal=GameMainScript.instance.board_state[(int)this.transform.position.x,(int)this.transform.position.z];
-		if(boardVal<=2){ // 一段以下
-			return true;
-		}else if(boardVal<=6){ // 二段
-			return (this.transform.position.y==1.861f);
-		}else{ //三段
-			return (this.transform.position.y==2.712f);
-		}
-	}
+	#endregion
 
+    #region Moveable
+    public GameObject[] moveableObjs = new GameObject[8];
+    GameObject[] ClickPlace;
+
+    public int movePlace = 0;
+    public void IfCanBeChoosedAsDestination(){
+        player_black_chesses = GameObject.FindGameObjectsWithTag("player_black");
+		player_white_chesses = GameObject.FindGameObjectsWithTag("player_white");
+        ClickPlace =  GameObject.FindGameObjectsWithTag("ClickPlace");
+		for(int i=-1; i<=1; i++){ //行
+			for(int j=-1; j<=1; j++){ //列
+                if(!(GameMainScript.instance.Turn == GameMainScript.instance.Black && this.gameObject.transform.position.z + j == 0) && !(GameMainScript.instance.Turn == GameMainScript.instance.White && this.gameObject.transform.position.z + j == GameMainScript.instance.line + 1)){
+				    if(!(i==0 && j==0)){
+						if(GameMainScript.instance.board_state[(int)this.gameObject.transform.position.x + i, (int)this.gameObject.transform.position.z + j] == 0){
+                            foreach(GameObject obj in ClickPlace){
+                                if(obj.transform.position.x == this.gameObject.transform.position.x + i && obj.transform.position.z == this.gameObject.transform.position.z + j){
+                                    moveableObjs[movePlace] = obj;
+                                    movePlace++;
+                                }
+                            }
+                        }else if(GameMainScript.instance.board_state[(int)this.gameObject.transform.position.x + i, (int)this.gameObject.transform.position.z + j] <= 2){
+                            foreach(GameObject obj in player_black_chesses){
+                                if(obj.transform.position.x == this.gameObject.transform.position.x + i && obj.transform.position.y == 1.0f && obj.transform.position.z == this.gameObject.transform.position.z + j){
+                                    moveableObjs[movePlace] = obj;
+                                    movePlace++;
+                                }
+                            }
+                            foreach(GameObject obj in player_white_chesses){
+                                if(obj.transform.position.x == this.gameObject.transform.position.x + i && obj.transform.position.y == 1.0f && obj.transform.position.z == this.gameObject.transform.position.z + j){
+                                    moveableObjs[movePlace] = obj;
+                                    movePlace++;
+                                }
+                            }
+                        }else if(GameMainScript.instance.board_state[(int)this.gameObject.transform.position.x + i, (int)this.gameObject.transform.position.z + j] <= 6){
+                            foreach(GameObject obj in player_black_chesses){
+                                if(obj.transform.position.x == this.gameObject.transform.position.x + i && obj.transform.position.y == 1.85f && obj.transform.position.z == this.gameObject.transform.position.z + j){
+                                    moveableObjs[movePlace] = obj;
+                                    movePlace++;
+                                }
+                            }
+                            foreach(GameObject obj in player_white_chesses){
+                                if(obj.transform.position.x == this.gameObject.transform.position.x + i && obj.transform.position.y == 1.85f && obj.transform.position.z == this.gameObject.transform.position.z + j){
+                                    moveableObjs[movePlace] = obj;
+                                    movePlace++;
+                                }
+                            }
+                        }
+					}
+				}
+			}
+		}
+		/*
+		for(int i = movePlace; i < 8; i++){
+			moveableObjs[i] = null;
+		}
+		*/
+        //Debug.Log(movePlace);
+        //movePlace = 0;
+	}
+    #endregion
+
+	#region IsInMoveableObjs
+	public bool IsInMoveableObjs(GameObject obj){
+		for(int i = 0; i < movePlace; i++){
+			if(obj == moveableObjs[i]){
+				return true;
+			}
+		}
+		return false;
+	}
 	#endregion
 }
