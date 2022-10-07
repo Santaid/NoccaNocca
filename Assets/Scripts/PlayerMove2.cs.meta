@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2537b73d398f7ef4eb4ac5af7252e765
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - changed_shader: {fileID: 2100000, guid: ffff41f96ef0fd04e8f6adb3863f5e61, type: 2}
+  - clickPlace: {fileID: 2100000, guid: c6d16b060178b4b7290ed965aa9409bb, type: 2}
+  - returned_shader: {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
+  - blackPiece: {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
+  - whitePiece: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}
+  - tile: {fileID: 2100000, guid: 519df6dc7d6654046bfa239a0af08730, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
