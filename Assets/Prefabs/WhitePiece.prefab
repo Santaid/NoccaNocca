@@ -127,16 +127,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4645731803930730673}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a53e46dbb0c9174a92f6d6c84edf41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destination: {fileID: 0}
   PlayerIsSelected: 0
-  ClickPlace_Tile: {fileID: 3143487222171406319, guid: 203474618458fb04ea0d15f53e862e6b, type: 3}
-  ClickPlace: {fileID: 2906616611123437457, guid: 56cdcfc09a6a6124895a44b0d03779ff, type: 3}
+  DestinationIsSelected: 0
   changed_shader: {fileID: 2100000, guid: ffff41f96ef0fd04e8f6adb3863f5e61, type: 2}
+  destination_changed_shader: {fileID: 2100000, guid: c6d16b060178b4b7290ed965aa9409bb, type: 2}
   returned_shader: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}
+  white: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}
+  black: {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
+  clickPlace: {fileID: 2100000, guid: 519df6dc7d6654046bfa239a0af08730, type: 2}
+  destinations: []
 --- !u!114 &5271615511337923979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,12 +149,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4645731803930730673}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2537b73d398f7ef4eb4ac5af7252e765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerIsSelected: 0
   changed_shader: {fileID: 2100000, guid: ffff41f96ef0fd04e8f6adb3863f5e61, type: 2}
   clickPlace: {fileID: 2100000, guid: c6d16b060178b4b7290ed965aa9409bb, type: 2}
   returned_shader: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}
