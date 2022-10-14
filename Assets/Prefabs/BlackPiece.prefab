@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4716891117569718957}
   - component: {fileID: 4716891117569718956}
   - component: {fileID: 4424585202172747869}
-  - component: {fileID: 6734437545529605204}
   m_Layer: 0
   m_Name: BlackPiece
   m_TagString: player_black
@@ -66,8 +65,8 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
+  - {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,7 +108,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4716891117569718959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
@@ -140,23 +139,5 @@ MonoBehaviour:
   returned_shader: {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
   white: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}
   black: {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
-  clickPlace: {fileID: 2100000, guid: 519df6dc7d6654046bfa239a0af08730, type: 2}
+  clickPlace: {fileID: 2100000, guid: dc9447c3c53537a4d9df7afe7ce2896c, type: 2}
   destinations: []
---- !u!114 &6734437545529605204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4716891117569718959}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2537b73d398f7ef4eb4ac5af7252e765, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  changed_shader: {fileID: 2100000, guid: ffff41f96ef0fd04e8f6adb3863f5e61, type: 2}
-  clickPlace: {fileID: 2100000, guid: c6d16b060178b4b7290ed965aa9409bb, type: 2}
-  returned_shader: {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
-  blackPiece: {fileID: 2100000, guid: 65d3d9c17e372487eaba82bb1ae91498, type: 2}
-  whitePiece: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}
-  tile: {fileID: 2100000, guid: 519df6dc7d6654046bfa239a0af08730, type: 2}
