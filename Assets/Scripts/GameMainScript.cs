@@ -138,11 +138,11 @@ public class GameMainScript : MonoBehaviour{
 			if(board_state[i,0]==White){
 				Debug.Log("White won");
 				End=true;
-				return Black;
+				return White;
 			}else if(board_state[i,line+1]==Black){
 				Debug.Log("Black won");
 				End=true;
-				return White;
+				return Black;
 			}
 			// 駒が動けないか
 			for(int j=1; j<=line; j++){
