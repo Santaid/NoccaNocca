@@ -67,9 +67,9 @@ public class GameMainScript : MonoBehaviour{
 	[SerializeField] private GameObject WhiteWin;
 	[SerializeField] private GameObject BlackWin;
 	void Update(){
-		if(isEnd() == Black){
+		if(isEnd() == White){
 			WhiteWin.SetActive(true);
-		}else if(isEnd() == White){
+		}else if(isEnd() == Black){
 			BlackWin.SetActive(true);
 		}
 	}
