@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1876,8 +1876,8 @@ MonoBehaviour:
   line: 6
   board: {fileID: 1498670420}
   myCamera: {fileID: 963194225}
-  player_cube_one: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
-  player_cube_two: {fileID: 4716891117569718959, guid: be6ea68296b1b46cabbe8cd90023fe93, type: 3}
+  playerWhite: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  playerBlack: {fileID: 5250735683201108415, guid: cddae56f0fe8252468e29216db774b12, type: 3}
   click_place: {fileID: 5078952505310658753, guid: bb488f4367b3d7c48a2dacfa4ee5918e, type: 3}
   WhiteWin: {fileID: 57903362}
   BlackWin: {fileID: 1106681327}

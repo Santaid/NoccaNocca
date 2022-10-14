@@ -134,7 +134,7 @@ MonoBehaviour:
   destination: {fileID: 0}
   PlayerIsSelected: 0
   DestinationIsSelected: 0
-  changed_shader: {fileID: 2100000, guid: ffff41f96ef0fd04e8f6adb3863f5e61, type: 2}
+  changed_shader: {fileID: 2100000, guid: e0c861cdc9c658b4ba6b8ba156edd22c, type: 2}
   destination_changed_shader: {fileID: 2100000, guid: c6d16b060178b4b7290ed965aa9409bb, type: 2}
   returned_shader: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}
   white: {fileID: 2100000, guid: 39932ec7b7c1046b083821047de03c8d, type: 2}

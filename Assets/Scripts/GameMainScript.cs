@@ -10,10 +10,10 @@ public class GameMainScript : MonoBehaviour{
 	public int Wall=15;
 	[SerializeField] public int row;
 	[SerializeField] public int line;
-	[SerializeField] public GameObject board;
-	[SerializeField] public GameObject myCamera;
-	[SerializeField] private GameObject player_cube_one;
-	[SerializeField] private GameObject player_cube_two;
+	[SerializeField] private GameObject board;
+	[SerializeField] private GameObject myCamera;
+	[SerializeField] private GameObject playerWhite;
+	[SerializeField] private GameObject playerBlack;
 	[SerializeField] private GameObject click_place;
 	public int[,] board_state;
 	public int[,] board_top;
@@ -55,8 +55,8 @@ public class GameMainScript : MonoBehaviour{
 			// Vector3(row方向, 高さ, line方向)
 			Vector3 pos_white = new Vector3(i, 1, line);
 			Vector3 pos_black = new Vector3(i, 1, 1);
-			Instantiate(player_cube_one, pos_white, Quaternion.identity);
-			Instantiate(player_cube_two, pos_black, Quaternion.identity);
+			Instantiate(playerWhite, pos_white, Quaternion.identity);
+			Instantiate(playerBlack, pos_black, Quaternion.identity);
 			// 移動先のタイル生成
 			for(int j=0; j<line+2; j++){
 				Instantiate(click_place,new Vector3(i,0.5f,j),Quaternion.identity);
