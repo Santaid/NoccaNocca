@@ -165,7 +165,6 @@ public class AIScript : MonoBehaviour
 			instance_selected.Move();
 			instance_selected.PlayerIsSelected=false;
 			instance_selected.destinations.Clear();
-			GameMainScript.instance.move(from_x,from_z,to_x,to_z);
 			GameMainScript.instance.changeTurn();
 			GameMainScript.instance.isEnd();
 		}
