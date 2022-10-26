@@ -26,47 +26,33 @@ public class AiCommander{
 		Board board = new Board(start_board, start_board_top, 1, false);
 		NoccaFunction ruleObj = new NoccaFunction();
 		ruleObj.printBoard(board);
+
+		// MonteAI aiObj = new MonteAI(board);
+		// int[] tmp1 = aiObj.selectHand();
+		// board = ruleObj.move(board, tmp1[0], tmp1[1], tmp1[2], tmp1[3]);
+		// ruleObj.printBoard(board);
+
 		
-		// int black_count = 0;
-		// int white_count = 0;
 		while(ruleObj.isEnd(board) == 0){
-			AlphaBetaAI aiObject1 = new AlphaBetaAI(board);
+			RandomAI aiObject1 = new RandomAI(board);
+			// NegaMaxAI aiObject1 = new NegaMaxAI(board);
+			// AlphaBetaAI aiObject1 = new AlphaBetaAI(board);
+			// MonteAI aiObject1 = new MonteAI(board);
 			int[] tmp1 = aiObject1.selectHand();
 			board = ruleObj.move(board, tmp1[0], tmp1[1], tmp1[2], tmp1[3]);
 			ruleObj.printBoard(board);
 			Console.WriteLine();
 			if(ruleObj.isEnd(board) == 0){
 				RandomAI aiObject2 = new RandomAI(board);
+				// NegaMaxAI aiObject2 = new NegaMaxAI(board);
+				// AlphaBetaAI aiObject2 = new AlphaBetaAI(board);
+				// MonteAI aiObject2 = new MonteAI(board);
 				int[] tmp2 = aiObject2.selectHand();
 				board = ruleObj.move(board, tmp2[0], tmp2[1], tmp2[2], tmp2[3]);
 				ruleObj.printBoard(board);
 				Console.WriteLine();
 			}
 		}
-		// ruleObj.printBoard(board);
-		// for(int i = 0; i < 100; i++){
-		// 	while(ruleObj.isEnd(board) == 0){
-		// 		AlphaBetaAI aiObject1 = new AlphaBetaAI(board);
-		// 		int[] tmp1 = aiObject1.selectHand();
-		// 		board = ruleObj.move(board, tmp1[0], tmp1[1], tmp1[2], tmp1[3]);
-		// 		if(ruleObj.isEnd(board) == 1)black_count++;
-		// 		if(ruleObj.isEnd(board) == 2)white_count++;
-		// 		// ruleObj.printBoard(board);
-		// 		// Console.WriteLine("hand_x={0} hand_y={1}", tmp1[0], tmp1[1]);
-		// 		// Console.WriteLine("hand_x={0} hand_y={1}", tmp1[2], tmp1[3]);
-		// 		// ruleObj.move(board, tmp1[0], tmp1[1], tmp1[2], tmp1[3]);
-		// 		// ruleObj.printBoard(board);
-		// 		if(ruleObj.isEnd(board) == 0){
-		// 			RandomAI aiObject2 = new RandomAI(board);
-		// 			int[] tmp2 = aiObject2.selectHand();
-		// 			board = ruleObj.move(board, tmp2[0], tmp2[1], tmp2[2], tmp2[3]);
-		// 			if(ruleObj.isEnd(board) == 1)black_count++;
-		// 			if(ruleObj.isEnd(board) == 2)white_count++;
-		// 		}
-		// 	}
-		// 	board = new Board(start_board, start_board_top, 1, false);
-		// }
-		// Console.WriteLine("black = {0}   white = {1}", black_count, white_count);
 	}
 }
 
@@ -88,7 +74,7 @@ public class AlphaBetaAI{
 	}
 
 	int negaAlphaBeta(int depth, Board board, int alpha, int beta){
-		int max = -10000;
+		int max = -1000000;
 		if(depth == 0){
 			if(board.Turn == 1)return (ruleObj.evaluate_point_black(board) + ruleObj.evaluate_climb_black(board));
 			else return (ruleObj.evaluate_point_white(board) + ruleObj.evaluate_climb_white(board));
@@ -104,8 +90,8 @@ public class AlphaBetaAI{
 	}
 
 	void negaAlphaBeta_search(int depth, Board board){
-		int alpha = -10000;
-		int beta = 10000;
+		int alpha = -1000000;
+		int beta = 1000000;
 		int score;
 		for(int i = 0; i < hands.Count; i++){
 			score = - negaAlphaBeta(depth, ruleObj.move(board, hands[i][0], hands[i][1], hands[i][2], hands[i][3]), - beta, -alpha);
@@ -135,7 +121,7 @@ public class NegaMaxAI{
 	}
 
 	int negaMax(int depth, Board board){
-		int max = -10000;
+		int max = -1000000;
 		if(depth == 0){
 			if(board.Turn == 1)return (ruleObj.evaluate_point_black(board) + ruleObj.evaluate_climb_black(board));
 			else return (ruleObj.evaluate_point_white(board) + ruleObj.evaluate_climb_white(board));
@@ -150,7 +136,7 @@ public class NegaMaxAI{
 	}
 
 	void negaMax_search(int depth, Board board){
-		int max = -10000;
+		int max = -1000000;
 		for(int i = 0; i < hands.Count; i++){
 			int tmp = - negaMax(depth, ruleObj.move(board, hands[i][0], hands[i][1], hands[i][2], hands[i][3]));
 			if(max < tmp){
@@ -201,11 +187,12 @@ public class MonteAI{
 			int[] tmp1 = aiObject1.selectHand();
 			tmp = ruleObj.move(tmp, tmp1[0], tmp1[1], tmp1[2], tmp1[3]);
 		}
+		
 		return ruleObj.isEnd(tmp);//勝った色が返る
 	}
 
 	public void monte_search(Board board){
-		int loop = 100;
+		int loop = 1000;
 		int max = 0;
 		int[] winCount = new int[hands.Count];
 		for(int i = 0; i < hands.Count; i++){
@@ -213,11 +200,13 @@ public class MonteAI{
 		}
 		for(int j = 0; j < loop; j++){
 			for(int i = 0; i < hands.Count; i++){
+
 				int[,] cloned_board_state = new int[board.board_state.GetLength(0), board.board_state.GetLength(1)];
 				Array.Copy(board.board_state, cloned_board_state, board.board_state.Length);
 				int[,] cloned_board_top = new int[board.board_top.GetLength(0), board.board_top.GetLength(1)];
 				Array.Copy(board.board_top, cloned_board_top, board.board_top.Length);
 				Board cloned_board = new Board(cloned_board_state, cloned_board_top, board.Turn, board.End);
+
 				if(one_play(hands[i], cloned_board) == board.Turn){
 					winCount[i]++;
 				}
@@ -228,9 +217,10 @@ public class MonteAI{
 				reply = hands[i];
 				max = winCount[i];
 			}
-			// Console.WriteLine("hand : {0}{1}{2}{3} => win count {4}", hands[i][0],hands[i][1],hands[i][2],hands[i][3],winCount[i]);
+			Console.WriteLine("hand : {0}{1}{2}{3} => win count {4}", hands[i][0],hands[i][1],hands[i][2],hands[i][3],winCount[i]);
 		}
 	}
+
 
 }
 
@@ -285,20 +275,20 @@ public class NoccaFunction{
 
 	int[,] black_point_board = new int[,] {
 		{ 0, 0,  0,  0,  0,  0,  0,   0},
-		{-5, 0, 10, 20, 30, 40, 50, 500},
-		{-5, 0, 10, 20, 30, 40, 50, 500},
-		{-5, 0, 10, 20, 30, 40, 50, 500},
-		{-5, 0, 10, 20, 30, 40, 50, 500},
-		{-5, 0, 10, 20, 30, 40, 50, 500},
+		{-5, 0, 10, 30, 60, 120, 300, 5000},
+		{-5, 0, 10, 30, 60, 120, 300, 5000},
+		{-5, 0, 10, 30, 60, 120, 300, 5000},
+		{-5, 0, 10, 30, 60, 120, 300, 5000},
+		{-5, 0, 10, 30, 60, 120, 300, 5000},
 		{ 0, 0,  0,  0,  0,  0,  0,   0}
 	};
 	int[,] white_point_board = new int[,] {
 		{ 0, 0,  0,  0,  0,  0,  0,   0},
-		{500, 50, 40, 30, 20, 10, 0, -5},
-		{500, 50, 40, 30, 20, 10, 0, -5},
-		{500, 50, 40, 30, 20, 10, 0, -5},
-		{500, 50, 40, 30, 20, 10, 0, -5},
-		{500, 50, 40, 30, 20, 10, 0, -5},
+		{5000, 300, 120, 60, 30, 10, 0, -5},
+		{5000, 300, 120, 60, 30, 10, 0, -5},
+		{5000, 300, 120, 60, 30, 10, 0, -5},
+		{5000, 300, 120, 60, 30, 10, 0, -5},
+		{5000, 300, 120, 60, 30, 10, 0, -5},
 		{ 0, 0,  0,  0,  0,  0,  0,   0}
 	};
 
@@ -408,7 +398,11 @@ public class NoccaFunction{
 				}
 			}
 		}
-				return (top_count_black - top_count_white) * 100;
+		if(top_count_black - top_count_white == 5){
+			return 5000;
+		} else {
+			return (top_count_black - top_count_white) * 100;
+		}
 	}
 
 	public int evaluate_climb_white(Board board){
@@ -423,7 +417,12 @@ public class NoccaFunction{
 				}
 			}
 		}
-				return (top_count_white - top_count_black) * 100;
+		if(top_count_white - top_count_black == 5){
+			return 5000;
+		} else {
+			return (top_count_white - top_count_black) * 100;
+		}
+		
 	}
 
 	public List<int[]> canMove(Board board, int row, int line){
@@ -472,11 +471,11 @@ public class NoccaFunction{
 			if(board.board_state[i,0]==White){
 				// Console.WriteLine("White won");
 				board.End=true;
-				return Black;
+				return White;
 			}else if(board.board_state[i,line+1]==Black){
 				// Console.WriteLine("Black won");
 				board.End=true;
-				return White;
+				return Black;
 			}
 			// 駒が動けないか
 			for(int j=1; j<=line; j++){
