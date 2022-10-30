@@ -26,9 +26,17 @@ public class AIScript : MonoBehaviour
 		}
 
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
+		/*
 		if(AIColor == GameMainScript.instance.Turn){
-			// AIMove(from_x,from_z,to_x,to_z);
+			int num = UnityEngine.Random.Range(0, AIPieces.Length - 1);
+            GameObject go = AIPieces[num];
+			int num_destination = UnityEngine.Random.Range(0, go.GetComponent<PlayerMove>().destinations.Length - 1);
+            GameObject destinationAI = go.GetComponent<PlayerMove>().destinations[num_destination];
+			AIMove((int)go.transform.position.x,(int)go.transform.position.z,(int)destinationAI.transform.position.x,(int)destinationAI.transform.position.x);
+		
+			//AIMove(from_x,from_z,to_x,to_z);
 		}
+		*/
 	}
 
 	#region ObjectsInit

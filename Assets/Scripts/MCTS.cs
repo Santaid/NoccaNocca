@@ -12,7 +12,12 @@ public class MCTS : MonoBehaviour {
     public int from_z;
     public int to_x;
     public int to_z;
-    void Update() {
+    public void Awake(){
+		if(instance == null){
+			instance = this;
+		}
+	}
+    public void MAI() {
         uint[] board_info = downsize(GameMainScript.instance.board_state);
         mAI = new MonteAI(board_info, (uint)GameMainScript.instance.Turn);
         from_x = mAI.from_row;

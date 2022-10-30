@@ -10,6 +10,8 @@ public class AI_Yuzurihara : MonoBehaviour
 	private System.Random rnd=new System.Random();
 	private bool illigal=false;
 
+	private bool AIed = false;
+
 	void Start(){
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
 		if(AIComponent.tag == "player_black"){
@@ -28,7 +30,11 @@ public class AI_Yuzurihara : MonoBehaviour
 
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
 		if(AIColor == GameMainScript.instance.Turn){
-			AIMove(MCTS.instance.from_x,MCTS.instance.from_z,MCTS.instance.to_x,MCTS.instance.to_z);
+			if(!AIed){
+				MCTS.instance.MAI();
+				AIed = true;
+				AIMove(MCTS.instance.from_x,MCTS.instance.from_z,MCTS.instance.to_x,MCTS.instance.to_z);	
+			}		
 		}
 	}
 
@@ -55,6 +61,8 @@ public class AI_Yuzurihara : MonoBehaviour
 		}else{
 			layer=3;
 		}
+		Debug.Log("boardVal " + boardVal);
+		Debug.Log("layer" + layer);
 
 		switch(layer){
 			case 1:
@@ -166,9 +174,9 @@ public class AI_Yuzurihara : MonoBehaviour
 			instance_selected.Move();
 			instance_selected.PlayerIsSelected=false;
 			instance_selected.destinations.Clear();
-			GameMainScript.instance.move(from_x,from_z,to_x,to_z);
 			GameMainScript.instance.changeTurn();
 			GameMainScript.instance.isEnd();
+			AIed = false;
 		}
 	}
 	#endregion
