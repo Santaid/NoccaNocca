@@ -12,6 +12,7 @@ public class MCTS : MonoBehaviour {
     public int from_z;
     public int to_x;
     public int to_z;
+    public int step = 1000;
     public void Awake(){
 		if(instance == null){
 			instance = this;
@@ -347,7 +348,7 @@ public class MonteAI{
     Dictionary<int,int[]> dict=new Dictionary<int,int[]>(); //moveをキーにrootからの手の試行回数と勝ち数{simCount,win}を保存(backup)
 
     // ハイパーパラメタ
-    private int step=1000; //step数
+    //private [SerializeField] int step=1000; //step数
     private int simTimes=20; //1stepの試行回数
     private int threshold=10; //展開時の閾値
     private double c_squared=2.0f; //uctの定数c^2
@@ -364,7 +365,7 @@ public class MonteAI{
             dict.Add(_move,new int[2]);
         }
         // uctを元に木を探索、拡張
-        search(step,Turn);
+        search(MCTS.instance.step,Turn);
         // test();
 
         double rate=0.0;
