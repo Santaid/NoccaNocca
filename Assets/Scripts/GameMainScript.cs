@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameMainScript : MonoBehaviour{
 	public bool End=false;
@@ -15,6 +17,7 @@ public class GameMainScript : MonoBehaviour{
 	[SerializeField] private GameObject playerWhite;
 	[SerializeField] private GameObject playerBlack;
 	[SerializeField] private GameObject click_place;
+	[SerializeField] private GameObject coordinate;
 	public int[,] board_state;
 	public int[,] board_top;
 	public List<int[,]> former_boards = new List<int[,]>();
@@ -30,7 +33,7 @@ public class GameMainScript : MonoBehaviour{
     void Start(){
 		myCamera.transform.position = new Vector3(0.5f + 0.5f * row, 2.8f, -(0.5f + 0.5f * line));
 		board.transform.position = new Vector3(0.5f + 0.5f * row, 0, 0.5f + 0.5f * line);
-		board.transform.localScale = new Vector3(row + 2, 1, line + 2);
+		board.transform.localScale = new Vector3(row + 2, 1, line + 4);
 		Turn=Black;
 		board_state = new int[row + 2, line + 2];
 		board_top=new int[row+2,line+2];
@@ -61,6 +64,16 @@ public class GameMainScript : MonoBehaviour{
 			for(int j=0; j<line+2; j++){
 				Instantiate(click_place,new Vector3(i,0.5f,j),Quaternion.identity);
 			}
+		}
+		for(int i = 0; i < row; i++){ //x軸生成
+			Vector3 xAxis = new Vector3(i+1, 0.51f, -1);
+			GameObject axis = Instantiate(coordinate, xAxis, coordinate.transform.rotation);
+			axis.GetComponent<TMP_Text>().text = ((char)(65+i)).ToString();
+		}
+		for(int i = 1; i < line + 1; i++){ //z軸生成
+			Vector3 zAxis = new Vector3(0, 0.51f, i);
+			GameObject axis = Instantiate(coordinate, zAxis, coordinate.transform.rotation);
+			axis.GetComponent<TMP_Text>().text = i.ToString();		
 		}
     }
 
