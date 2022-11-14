@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public class AiCommander{
 
@@ -32,14 +33,15 @@ public class AiCommander{
 		// ruleObj.printBoard(board);
 
 		int win = 0;
-		for(int _ = 0; _ < 10; _++){
+		for(int _ = 0; _ < 30; _++){
 			Board board = new Board(start_board, start_board_top, 1, false);
 			// ruleObj.printBoard(board);
 			while(ruleObj.isEnd(board) == 0){
 				// RandomAI aiObject1 = new RandomAI(board);
 				// NegaMaxAI aiObject1 = new NegaMaxAI(board);
 				// AlphaBetaAI aiObject1 = new AlphaBetaAI(board);
-				MonteAI aiObject1 = new MonteAI(board);
+				// MonteAI aiObject1 = new MonteAI(board);
+				MonteTreeAI aiObject1 = new MonteTreeAI(board);
 				int[] tmp1 = aiObject1.selectHand();
 				board = ruleObj.move(board, tmp1[0], tmp1[1], tmp1[2], tmp1[3]);
 				// ruleObj.printBoard(board);
@@ -47,10 +49,11 @@ public class AiCommander{
 				if(ruleObj.isEnd(board) == 1)win++;
 				// if(ruleObj.isEnd(board) == 2)win--;
 				if(ruleObj.isEnd(board) == 0){
-					RandomAI aiObject2 = new RandomAI(board);
+					// RandomAI aiObject2 = new RandomAI(board);
 					// NegaMaxAI aiObject2 = new NegaMaxAI(board);
 					// AlphaBetaAI aiObject2 = new AlphaBetaAI(board);
-					// MonteAI aiObject2 = new MonteAI(board);
+					MonteAI aiObject2 = new MonteAI(board);
+					// MonteTreeAI aiObject2 = new MonteTreeAI(board);
 					int[] tmp2 = aiObject2.selectHand();
 					board = ruleObj.move(board, tmp2[0], tmp2[1], tmp2[2], tmp2[3]);
 					// ruleObj.printBoard(board);
@@ -61,8 +64,8 @@ public class AiCommander{
 			}
 			ruleObj.printBoard(board);
 			Console.WriteLine();
+			Console.WriteLine("count = {0},   win count = {1}", _ + 1, win);
 		}
-		Console.WriteLine("{0}", win);
 	}
 }
 
@@ -195,7 +198,7 @@ public class MonteAI{
 		return reply;
 	}
 
-	public int one_play(int[] first_hand, Board board){//Boardはcloneしたものを渡す(値参照のため)
+	public int one_play(int[] first_hand, Board board){//Boardはcloneしたものを渡す(値参照のため)   moveするから関係ない
 		Board tmp = ruleObj.move(board, first_hand[0], first_hand[1], first_hand[2], first_hand[3]);//自分側が打ってからスタート
 		while(ruleObj.isEnd(tmp) == 0){
 			RandomAI aiObject1 = new RandomAI(tmp);
@@ -207,25 +210,30 @@ public class MonteAI{
 	}
 
 	public void monte_search(Board board){
-		int loop = 500;
 		int max = 0;
 		int[] winCount = new int[hands.Count];
 		for(int i = 0; i < hands.Count; i++){
 			winCount[i] = 0;
 		}
-		for(int j = 0; j < loop; j++){
+
+		Stopwatch sw = new Stopwatch();
+		while(sw.ElapsedMilliseconds < 5 * 1000){
+			sw.Start();
 			for(int i = 0; i < hands.Count; i++){
+				// int[,] cloned_board_state = new int[board.board_state.GetLength(0), board.board_state.GetLength(1)];
+				// Array.Copy(board.board_state, cloned_board_state, board.board_state.Length);
+				// int[,] cloned_board_top = new int[board.board_top.GetLength(0), board.board_top.GetLength(1)];
+				// Array.Copy(board.board_top, cloned_board_top, board.board_top.Length);
+				// Board cloned_board = new Board(cloned_board_state, cloned_board_top, board.Turn, board.End);
 
-				int[,] cloned_board_state = new int[board.board_state.GetLength(0), board.board_state.GetLength(1)];
-				Array.Copy(board.board_state, cloned_board_state, board.board_state.Length);
-				int[,] cloned_board_top = new int[board.board_top.GetLength(0), board.board_top.GetLength(1)];
-				Array.Copy(board.board_top, cloned_board_top, board.board_top.Length);
-				Board cloned_board = new Board(cloned_board_state, cloned_board_top, board.Turn, board.End);
-
-				if(one_play(hands[i], cloned_board) == board.Turn){
+				// if(one_play(hands[i], cloned_board) == board.Turn){
+				// 	winCount[i]++;
+				// }
+				if(one_play(hands[i], board) == board.Turn){
 					winCount[i]++;
 				}
 			}
+			sw.Stop();
 		}
 		for(int i = 0; i < hands.Count; i++){
 			if(max < winCount[i]){
@@ -238,7 +246,125 @@ public class MonteAI{
 }
 
 public class MonteTreeAI{
+	Node root;//現在のboardを含むNode
+	List<Node> visits = new List<Node>();//訪れたノード(フィードバック用)
+	List<int[]> hands;
+	public int threshold = 40;//閾値
+	public double c_value = 2.0;
+	// int one_play_count = 1;//一回訪れた際のplayout数
+	int[] reply = new int[]{-1,-1,-1,-1};
+	public NoccaFunction ruleObj = new NoccaFunction();
 
+
+	public MonteTreeAI(Board board){
+		this.root = new Node(board);
+		hands = ruleObj.makeHands(board);
+	}
+
+	public int[] selectHand(){
+		monteTree_search();
+		return reply;
+	}
+
+	public void monteTree_search(){
+		Stopwatch sw = new Stopwatch();
+		while(sw.ElapsedMilliseconds < 5 * 1000){
+			sw.Start();
+			visits.Clear();
+			Node selected = select(root);
+			if(selected.visit >= threshold){
+				expand(selected);
+			}else{
+				if(ruleObj.isEnd(selected.board) == 0){//選ばれたのが終わっていない盤面
+					RandomAI aiObject1 = new RandomAI(selected.board);
+					int[] hand_tmp = aiObject1.selectHand();
+					feedback(visits, one_play(hand_tmp, selected.board));
+				}else if(ruleObj.isEnd(selected.board) == 1){
+					feedback(visits, 1);
+				}else{
+					feedback(visits, 2);
+				}
+			}
+			sw.Stop();
+		}
+
+		int max_visit = 0;
+		for(int i = 0; i < hands.Count; i++){
+			if(root.node_children[i].visit > max_visit){
+				max_visit = root.node_children[i].visit;
+				reply = hands[i];
+			}
+			// Console.WriteLine("hand : {0}{1}{2}{3} => visit count {4},   win rate {5}", hands[i][0],hands[i][1],hands[i][2],hands[i][3],root.node_children[i].visit, (float)root.node_children[i].win/(float)root.node_children[i].visit);
+		}
+	}
+
+	public class Node{//サブクラスを用意した
+		public int visit;//訪問回数
+		public int win;//報酬回数
+		public Board board;
+		public double score = 0;
+		public List<Node> node_children = new List<Node>();
+
+		public Node(Board board){
+			this.board = board;
+			this.visit = 0;
+			this.win = 0;
+			node_children.Clear();
+		}
+	}
+
+	public void expand(Node node){
+		List<int[]> children_hands = ruleObj.makeHands(node.board);
+		for(int i = 0; i < children_hands.Count; i++){
+			node.node_children.Add(new Node(ruleObj.move(node.board, children_hands[i][0], children_hands[i][1], children_hands[i][2], children_hands[i][3])));
+		}
+	}
+
+
+	public Node select(Node node){
+		Node tmp = node;
+		double max = 0;
+		visits.Add(node);//feedback用に格納
+		if(node.node_children.Count == 0){//子を持っていないならそのノードを返す
+			return node;
+		} else {//下を探索
+			foreach( Node i in node.node_children){
+				if(i.visit == 0){//訪問回数0は優先
+					tmp = i;
+					break;
+				} else {
+					double culc = ((double)i.win / (double)i.visit) + (Math.Sqrt(c_value) * Math.Sqrt(Math.Log(root.visit) / (double)i.visit));
+					i.score = culc;
+					if(culc > max){//maxを超えたらtmpに保存
+						max = culc;
+						tmp = i;
+					}
+				}
+			}
+			return select(tmp);
+		}
+	}
+
+	public void feedback(List<Node> visits, int win_color){
+		foreach(Node i in visits){
+			if(i.board.Turn != win_color){//相手の盤面で考えるため
+				i.visit++;
+				i.win++;
+			} else {
+				i.visit++;
+			}
+		}
+	}
+
+	public int one_play(int[] first_hand, Board board){
+		Board tmp = ruleObj.move(board, first_hand[0], first_hand[1], first_hand[2], first_hand[3]);//自分側が打ってからスタート
+		while(ruleObj.isEnd(tmp) == 0){
+			RandomAI aiObject1 = new RandomAI(tmp);
+			int[] tmp1 = aiObject1.selectHand();
+			tmp = ruleObj.move(tmp, tmp1[0], tmp1[1], tmp1[2], tmp1[3]);
+		}
+		return ruleObj.isEnd(tmp);//勝った色が返る黒1白2
+	}
 }
 
 public class Board{
@@ -331,8 +457,8 @@ public class NoccaFunction{
 		}
 	}
 
-	public Board move(Board board, int from_x,int from_z,int to_x,int to_z){
-		int[,] return_board_state = new int[board.board_state.GetLength(0), board.board_state.GetLength(1)];
+	public Board move(Board board, int from_x,int from_z,int to_x,int to_z){//boardに変化はない
+		int[,] return_board_state = new int[board.board_state.GetLength(0), board.board_state.GetLength(1)];//ボードをクローンしている(配列は値参照のため)
 		Array.Copy(board.board_state, return_board_state, board.board_state.Length);
 		int[,] return_board_top = new int[board.board_top.GetLength(0), board.board_top.GetLength(1)];
 		Array.Copy(board.board_top, return_board_top, board.board_top.Length);
@@ -455,13 +581,13 @@ public class NoccaFunction{
 		
 	}
 
-	public List<int[]> canMove(Board board, int row, int line){
+	public List<int[]> canMove(Board board, int r, int l){
 		List<int[]> res = new List<int[]>();
 		for(int i = -1; i <= 1; i++){
 			for(int j = -1; j <= 1; j++){
-				if(board.board_state[row + i, line + j] <= 6 && !(i == 0 && j == 0)){
-					if(!(board.Turn == Black && line + j == 0) && !(board.Turn == White && line + j == 6 + 1)){
-						res.Add(new int[2] {row + i, line + j});
+				if(board.board_state[r + i, l + j] <= 6 && !(i == 0 && j == 0)){
+					if(!(board.Turn == Black && l + j == 0) && !(board.Turn == White && l + j == line + 1)){
+						res.Add(new int[2] {r + i, l + j});
 					}
 				}
 			}
