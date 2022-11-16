@@ -33,7 +33,7 @@ public class AiCommander{
 		// ruleObj.printBoard(board);
 
 		int win = 0;
-		for(int _ = 0; _ < 30; _++){
+		for(int _ = 0; _ < 10; _++){
 			Board board = new Board(start_board, start_board_top, 1, false);
 			// ruleObj.printBoard(board);
 			while(ruleObj.isEnd(board) == 0){
@@ -205,7 +205,6 @@ public class MonteAI{
 			int[] tmp1 = aiObject1.selectHand();
 			tmp = ruleObj.move(tmp, tmp1[0], tmp1[1], tmp1[2], tmp1[3]);
 		}
-		
 		return ruleObj.isEnd(tmp);//勝った色が返る
 	}
 
