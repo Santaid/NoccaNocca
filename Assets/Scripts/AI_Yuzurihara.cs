@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Threading;
+using System.Threading.Tasks;
+
 public class AI_Yuzurihara : MonoBehaviour
 {
 	[SerializeField] private GameObject AIComponent; //GameMainにAIをつける駒を設定必要ある
@@ -10,7 +13,7 @@ public class AI_Yuzurihara : MonoBehaviour
 	private System.Random rnd=new System.Random();
 	private bool illigal=false;
 
-	private bool AIed = false;
+	private bool agent_predicting = false;
 
 	void Start(){
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
@@ -23,17 +26,22 @@ public class AI_Yuzurihara : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update(){
+	async void Update(){
 		if(GameMainScript.instance.End || illigal){
 			return;
 		}
 
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
 		if(AIColor == GameMainScript.instance.Turn){
-			if(!AIed){
-				MCTS.instance.MAI();
-				AIed = true;
-				AIMove(MCTS.instance.from_x,MCTS.instance.from_z,MCTS.instance.to_x,MCTS.instance.to_z);	
+			if(!agent_predicting){
+				agent_predicting = true;
+				agent_predicting =await Task<bool>.Run<bool>(()=>{
+					MCTS.instance.MAI();
+					return false;
+				});
+				if(!agent_predicting){
+					AIMove(MCTS.instance.from_x,MCTS.instance.from_z,MCTS.instance.to_x,MCTS.instance.to_z);
+				}
 			}		
 		}
 	}
@@ -176,7 +184,7 @@ public class AI_Yuzurihara : MonoBehaviour
 			instance_selected.destinations.Clear();
 			GameMainScript.instance.changeTurn();
 			GameMainScript.instance.isEnd();
-			AIed = false;
+			agent_predicting = false;
 		}
 	}
 	#endregion
