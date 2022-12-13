@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2026,9 +2026,9 @@ GameObject:
   - component: {fileID: 1304044514}
   - component: {fileID: 1304044517}
   - component: {fileID: 1304044516}
-  - component: {fileID: 1304044519}
   - component: {fileID: 1304044518}
   - component: {fileID: 1304044520}
+  - component: {fileID: 1304044521}
   m_Layer: 0
   m_Name: GameMain
   m_TagString: Untagged
@@ -2085,7 +2085,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304044513}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e39e4b26dbf07443993c0a1dff93a5b, type: 3}
   m_Name: 
@@ -2115,28 +2115,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304044513}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad5706b5a9d5cba469edb91187840007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AIComponent: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
---- !u!114 &1304044519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304044513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15d23da03f1343846adadac582e82491, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  from_x: 0
-  from_z: 0
-  to_x: 0
-  to_z: 0
 --- !u!114 &1304044520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2153,6 +2137,23 @@ MonoBehaviour:
   InputField: {fileID: 914056073}
   inputField: {fileID: 914056075}
   text: {fileID: 1600258402}
+--- !u!114 &1304044521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304044513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aef713e3d631c54bbd53d2654e69dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AIComponent: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  from_x: 0
+  from_z: 0
+  to_x: 0
+  to_z: 0
 --- !u!1 &1355084683
 GameObject:
   m_ObjectHideFlags: 0

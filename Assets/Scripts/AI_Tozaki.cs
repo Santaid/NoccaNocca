@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 public class AI_Tozaki : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class AI_Tozaki : MonoBehaviour
 	private System.Random rnd=new System.Random();
 	private bool illigal=false;
 
-	private bool AIed = false;
+	private bool agent_predicting = false;
 
 	void Start(){
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
@@ -23,17 +25,22 @@ public class AI_Tozaki : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update(){
+	async void Update(){
 		if(GameMainScript.instance.End || illigal){
 			return;
 		}
 
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
 		if(AIColor == GameMainScript.instance.Turn){
-			if(!AIed){
-				Alphabeta_T.instance.ABAI();
-				AIed = true;
-				AIMove(Alphabeta_T.instance.from_x,Alphabeta_T.instance.from_z,Alphabeta_T.instance.to_x,Alphabeta_T.instance.to_z);	
+			if(!agent_predicting){
+				agent_predicting = true;
+				agent_predicting =await Task<bool>.Run<bool>(()=>{
+					Alpha_T.instance.AIScript(GameMainScript.instance.board_state,AIColor);
+					return false;
+				});
+				if(!agent_predicting){
+					AIMove(Alpha_T.instance.from_x,Alpha_T.instance.from_z,Alpha_T.instance.to_x,Alpha_T.instance.to_z);
+				}
 			}		
 		}
 	}
@@ -176,7 +183,7 @@ public class AI_Tozaki : MonoBehaviour
 			instance_selected.destinations.Clear();
 			GameMainScript.instance.changeTurn();
 			GameMainScript.instance.isEnd();
-			AIed = false;
+			agent_predicting = false;
 		}
 	}
 	#endregion
