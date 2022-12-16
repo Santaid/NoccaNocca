@@ -9,6 +9,7 @@ public class AI_K : MonoBehaviour {
     public static AI_K instance;
 	public MonteAI_K mAI_k;
     public MonteTreeAI mtAI_k;
+	public AlphaBetaAI abAI;
 	public Board board;
     public int from_x;
     public int from_z;
@@ -18,6 +19,7 @@ public class AI_K : MonoBehaviour {
 
 	public bool Monte = true;
 	public bool MonteTree = false;
+	public bool AlphaBeta = false;
     public void Awake(){
 		if(instance == null){
 			instance = this;
@@ -34,6 +36,9 @@ public class AI_K : MonoBehaviour {
 		}else if(MonteTree == true){
 			mtAI_k = new MonteTreeAI(board);
 			tmp1 = mtAI_k.selectHand();
+		}else if(AlphaBeta == true){
+			abAI = new AlphaBetaAI(board);
+			tmp1 = abAI.selectHand();
 		}
         
         from_x = tmp1[0];
