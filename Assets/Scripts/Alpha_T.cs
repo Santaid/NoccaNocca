@@ -176,9 +176,9 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
      			int board_val=board[r,c];
      			if(board_val==0){// 空白のマスは何もしない
      			}else if(board_val==1|| board_val==3 || board_val==4 || (board_val>=7 && board_val<=10)){
-      			score+=(1<<c); //黒のとき
+      				score+=(1<<c); //黒のとき
      			}else{
-      			score-=(1<<(line+1-c)); //白のとき
+      				score-=(1<<(line+1-c)); //白のとき
      			}
     		}
    		}

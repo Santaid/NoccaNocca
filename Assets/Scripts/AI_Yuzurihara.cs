@@ -12,6 +12,7 @@ public class AI_Yuzurihara : MonoBehaviour
 	private int AIColor; //AI駒の色
 	private System.Random rnd=new System.Random();
 	private bool illigal=false;
+	[SerializeField] private GameObject InputField;
 
 	private bool agent_predicting = false;
 
@@ -34,6 +35,7 @@ public class AI_Yuzurihara : MonoBehaviour
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
 		if(AIColor == GameMainScript.instance.Turn){
 			if(!agent_predicting){
+				InputField.SetActive(true);
 				agent_predicting = true;
 				agent_predicting =await Task<bool>.Run<bool>(()=>{
 					MCTS.instance.MAI();
@@ -41,6 +43,7 @@ public class AI_Yuzurihara : MonoBehaviour
 				});
 				if(!agent_predicting){
 					AIMove(MCTS.instance.from_x,MCTS.instance.from_z,MCTS.instance.to_x,MCTS.instance.to_z);
+					InputField.SetActive(false);
 				}
 			}		
 		}

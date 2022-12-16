@@ -4,14 +4,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-public class AI_Tozaki : MonoBehaviour
+public class AI_Takabatake : MonoBehaviour
 {
 	[SerializeField] private GameObject AIComponent; //GameMainにAIをつける駒を設定必要ある
 	private GameObject[] AIPieces; //AIがコントロールする駒の配列
 	private int AIColor; //AI駒の色
 	private System.Random rnd=new System.Random();
 	private bool illigal=false;
-	[SerializeField] private GameObject InputField;
+    [SerializeField] private GameObject InputField;
 
 	private bool agent_predicting = false;
 
@@ -22,7 +22,6 @@ public class AI_Tozaki : MonoBehaviour
 		}else if(AIComponent.tag == "player_white"){
 			AIColor = GameMainScript.instance.White;
 		}
-        
 	}
 
 	// Update is called once per frame
@@ -30,19 +29,18 @@ public class AI_Tozaki : MonoBehaviour
 		if(GameMainScript.instance.End || illigal){
 			return;
 		}
-
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
 		if(AIColor == GameMainScript.instance.Turn){
 			if(!agent_predicting){
-				InputField.SetActive(true);
+                InputField.SetActive(true);
 				agent_predicting = true;
 				agent_predicting =await Task<bool>.Run<bool>(()=>{
-					Alpha_T.instance.AIScript(GameMainScript.instance.board_state,AIColor);
+					AI_K.instance.MAI_K();
 					return false;
 				});
 				if(!agent_predicting){
-					AIMove(Alpha_T.instance.from_x,Alpha_T.instance.from_z,Alpha_T.instance.to_x,Alpha_T.instance.to_z);
-					InputField.SetActive(false);
+					AIMove(AI_K.instance.from_x,AI_K.instance.from_z,AI_K.instance.to_x,AI_K.instance.to_z);
+                    InputField.SetActive(false);
 				}
 			}		
 		}

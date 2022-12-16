@@ -6,15 +6,23 @@ using System;
 public class PlayerMove : MonoBehaviour
 {
 	//public GameObject player;
+	public static PlayerMove instance;
 	public GameObject destination=null;
 	public bool PlayerIsSelected = false;
 	public bool DestinationIsSelected = false;
+	public bool AIing = false;
+	
+	public void Awake(){
+		if(instance == null){
+			instance = this;
+		}
+	}
 	void Update(){     
 		if(GameMainScript.instance.End){
 			return;
 		}
         
-		if(Input.GetMouseButtonDown(0) && !PlayerIsSelected && !OtherIsSelected() && !IsDestination() && isTurn() && isTop(this.gameObject)){
+		if(Input.GetMouseButtonDown(0) && !PlayerIsSelected && !OtherIsSelected() && !IsDestination() && isTurn() && isTop(this.gameObject) && !AIing){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit)){
@@ -27,7 +35,7 @@ public class PlayerMove : MonoBehaviour
 				}
 			}
 		//移動先の判定以外を無視する
-		}else if(Input.GetMouseButtonDown(0) && PlayerIsSelected && !DestinationIsSelected && !OtherIsSelected()){
+		}else if(Input.GetMouseButtonDown(0) && PlayerIsSelected && !DestinationIsSelected && !OtherIsSelected() && !AIing){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit)){
