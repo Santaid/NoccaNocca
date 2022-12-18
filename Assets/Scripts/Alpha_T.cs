@@ -13,7 +13,7 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 	private int row,line,Black,White;
 	public int from_x,from_z,to_x,to_z,score;
 	List<int[]> Canmovepieces = new List<int[]>();//動かせる駒のリスト
-  	List<int[]> piecemoveways = new List<int[]>();//駒が動ける方向のリスト
+	List<int[]> piecemoveways = new List<int[]>();//駒が動ける方向のリスト
 	public void Awake(){
 		if(instance == null){
 			instance = this;
@@ -58,45 +58,45 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 	int[] maxlevelab(int alpha,int beta ,int limit,int Flimit,int[,] board_state,int turn,int fft,int ffy,int ftt,int fty) {
 		List<int[]> Selectways =new List<int[]>();	
 		bool gameend = DecideJudge(Opponent(turn),Change_state_to_top(board_state));
-  		if(limit == 0||gameend){
-  			return new int[5]{fft,ffy,ftt,fty,gameend==true?(-1000000):evaluate(board_state)};//負けたかどうか判定
-  		}
-		Canmovepieces = MovePieces(Change_state_to_top(board_state),turn);	
+		if(limit == 0||gameend){
+			return new int[5]{fft,ffy,ftt,fty,gameend==true?(-1000000):evaluate(board_state)};//負けたかどうか判定
+		}
+		Canmovepieces = MovePieces(Change_state_to_top(board_state),turn);
 		for(int d=0;d<Canmovepieces.Count;d++){
 			piecemoveways = canMove(Canmovepieces[d][0],Canmovepieces[d][1],turn,board_state);
 			for(int f = 0;f<piecemoveways.Count;f++){
 				Selectways.Add(new int[4] {Canmovepieces[d][0],Canmovepieces[d][1],piecemoveways[f][0],piecemoveways[f][1]});
 			}
 		}//出せる手を検索
-   		int[] score_max = {-1,-1,-1,-1,int.MinValue};
-  		foreach(int[] sw in Selectways){	 
+		int[] score_max = {-1,-1,-1,-1,int.MinValue};
+		foreach(int[] sw in Selectways){	 
 			int[,] board_statecop = new int[row+2,line+2];
 			Array.Copy(board_state, board_statecop, board_state.Length);	
 			move(sw[0],sw[1],sw[2],sw[3],board_statecop,turn);
-  			int[] score;
-  			if(Flimit == limit){
-   				score = minlevelab(alpha,beta,limit - 1,limit,board_statecop,Opponent(turn),sw[0],sw[1],sw[2],sw[3]);//次の相手の手
-  			}else{
-		 		score = minlevelab(alpha,beta,limit - 1,limit,board_statecop,Opponent(turn),fft,ffy,ftt,fty);
-  			}
+			int[] score;
+			if(Flimit == limit){
+				score = minlevelab(alpha,beta,limit - 1,limit,board_statecop,Opponent(turn),sw[0],sw[1],sw[2],sw[3]);//次の相手の手
+			}else{
+				score = minlevelab(alpha,beta,limit - 1,limit,board_statecop,Opponent(turn),fft,ffy,ftt,fty);
+			}
   			//ここを削ればminimaxになる
 		 	if (score[4] >= beta) { // beta値を上回ったら探索を中止
-   	 			return score;
+				return score;
 			}
 			if(score[4]>score_max[4]){ //より良い手が見つかった
 				score_max = score;	  
 				alpha = Math.Max(alpha, score_max[4]);//α値を更新
 			}
-  		}
-	  	return score_max; 
+		}
+		return score_max; 
 	}
 	//相手の手を調べる
 	int[] minlevelab(int alpha,int beta,int limit,int Flimit,int[,] board_state,int turn,int fft,int ffy,int ftt,int fty) {
 		List<int[]> Selectways =new List<int[]>();
 		bool gameend =DecideJudge(Opponent(turn),Change_state_to_top(board_state));
-	  	if(limit == 0||gameend){
-	 		return new int[5]{fft,ffy,ftt,fty,(gameend==true)?(1000000):evaluate(board_state)};//勝ったかどうか判定
-	  	} 	
+		if(limit == 0||gameend){
+			return new int[5]{fft,ffy,ftt,fty,(gameend==true)?(1000000):evaluate(board_state)};//勝ったかどうか判定
+		}
 		Canmovepieces = MovePieces(Change_state_to_top(board_state),turn);	
 		for(int d=0;d<Canmovepieces.Count;d++){
 			piecemoveways = canMove(Canmovepieces[d][0],Canmovepieces[d][1],turn,board_state);
@@ -104,23 +104,23 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 				Selectways.Add(new int[4] {Canmovepieces[d][0],Canmovepieces[d][1],piecemoveways[f][0],piecemoveways[f][1]});
 			}
 		}//出せる手を検索
- 		int[] score_min = {-1,-1,-1,-1,int.MaxValue};
-  		foreach(int[] sw in Selectways) {
+		int[] score_min = {-1,-1,-1,-1,int.MaxValue};
+		foreach(int[] sw in Selectways) {
 			int[,] board_statecop = new int[row+2,line+2];
 			Array.Copy(board_state, board_statecop, board_state.Length);
 			move(sw[0],sw[1],sw[2],sw[3],board_statecop,turn);	
-   			//手を打つ;
-    		int[] score = maxlevelab(alpha,beta,limit - 1,limit,board_statecop,Opponent(turn),fft,ffy,ftt,fty);//次の自分の手
+			//手を打つ;
+			int[] score = maxlevelab(alpha,beta,limit - 1,limit,board_statecop,Opponent(turn),fft,ffy,ftt,fty);//次の自分の手
 			//ここを削ればminimaxになる
-	  		if (score[4] <= alpha) {
-      			return score;     // alpha値を上回ったら探索を中止
-    		}
+			if (score[4] <= alpha) {
+				return score;     // alpha値を上回ったら探索を中止
+			}
 			if (score[4] < score_min[4]) {	 // より悪い手（相手にとって良い手）が見つかった
-      			score_min = score;
-	    		beta = Math.Min(beta,score_min[4]);// β値を更新
+				score_min = score;
+				beta = Math.Min(beta,score_min[4]);// β値を更新
 			}
 		}
-  		return score_min;
+		return score_min;
 	}
 	//駒を動かす
 	void move(int from_x,int from_z,int to_x,int to_z,int[,] board_state,int turn){
@@ -173,21 +173,30 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 	public int Opponent(int turn){
 		return turn == Black?White:Black;
 	}
- 	int evaluate(int[,] board){
-   		int score=0;
-   		for(int r=1; r<=row; r++){
-    		for(int c=1; c<=line; c++){
-     			int board_val=board[r,c];
-     			if(board_val==0){// 空白のマスは何もしない
-     			}else if(board_val==1|| board_val==3 || board_val==4 || (board_val>=7 && board_val<=10)){
-      				score+=(1<<c); //黒のとき
-     			}else{
-      				score-=(1<<(line+1-c)); //白のとき
-     			}
-    		}
-   		}
-   		return (AIColor==Black)?score:-score;
-  	}
+
+	int evaluate(int[,] board){
+		int score=0;
+		for(int r=1; r<=row; r++){
+			// 勝敗が確定する盤面
+			if(board[r,1]==12){
+				score=(AIColor==Black? -10000:10000);
+			}
+			if(board[r,line]==9){
+				score+=(AIColor==Black? 10000:-10000);
+			}
+
+			for(int c=1; c<=line; c++){
+				int board_val=board[r,c];
+				if(board_val==0){// 空白のマスは何もしない
+				}else if(board_val==1|| board_val==3 || board_val==4 || (board_val>=7 && board_val<=10)){
+					score+=(1<<c); //黒のとき
+				}else{
+					score-=(1<<(line+1-c)); //白のとき
+				}
+			}
+		}
+		return (AIColor==Black)?score:-score;
+	}
 	public bool DecideJudge(int turn,int[,] board_top){
 		bool j = true;
 		for(int a=1;a<row+1;a++){
@@ -209,5 +218,3 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 		return newboard;
 	}
 }
-
-
