@@ -2169,8 +2169,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39e4b26dbf07443993c0a1dff93a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AIComponent: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  AIComponentW: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  AIComponentB: {fileID: 5250735683201108415, guid: cddae56f0fe8252468e29216db774b12, type: 3}
   InputField: {fileID: 560818426}
+  White: 0
+  Black: 1
 --- !u!114 &1304044517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2200,8 +2203,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5706b5a9d5cba469edb91187840007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AIComponent: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  AIComponentW: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  AIComponentB: {fileID: 5250735683201108415, guid: cddae56f0fe8252468e29216db774b12, type: 3}
   InputField: {fileID: 560818426}
+  White: 1
+  Black: 0
 --- !u!114 &1304044520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2230,7 +2236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aef713e3d631c54bbd53d2654e69dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AIComponent: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  AIComponent: {fileID: 0}
+  AIComponentW: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  AIComponentB: {fileID: 5250735683201108415, guid: cddae56f0fe8252468e29216db774b12, type: 3}
   from_x: 0
   from_z: 0
   to_x: 0
@@ -2248,8 +2256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5ca360d40455345aeca71ec2b2b8a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AIComponent: {fileID: 5250735683201108415, guid: cddae56f0fe8252468e29216db774b12, type: 3}
+  AIComponentW: {fileID: 4645731803930730673, guid: ab52ef45396db48d7b29ffbc4f03c540, type: 3}
+  AIComponentB: {fileID: 5250735683201108415, guid: cddae56f0fe8252468e29216db774b12, type: 3}
   InputField: {fileID: 560818426}
+  White: 1
+  Black: 0
 --- !u!114 &1304044523
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 public class AI_Tozaki : MonoBehaviour
 {
-	[SerializeField] private GameObject AIComponent; //GameMainにAIをつける駒を設定必要ある
+	private GameObject AIComponent = null; //GameMainにAIをつける駒を設定必要ある
+	[SerializeField] private GameObject AIComponentW; //GameMainにAIをつける駒を設定必要ある
+	[SerializeField] private GameObject AIComponentB; //GameMainにAIをつける駒を設定必要ある
 	private GameObject[] AIPieces; //AIがコントロールする駒の配列
 	private int AIColor; //AI駒の色
 	private System.Random rnd=new System.Random();
@@ -14,8 +16,17 @@ public class AI_Tozaki : MonoBehaviour
 	[SerializeField] private GameObject InputField;
 
 	private bool agent_predicting = false;
+	public bool White;
+	public bool Black;
 
 	void Start(){
+		if(White == true){
+			AIComponent = AIComponentW;
+			Alpha_T.instance.AIComponent = Alpha_T.instance.AIComponentW;
+		}else if(Black == true){
+			AIComponent = AIComponentB;
+			Alpha_T.instance.AIComponent = Alpha_T.instance.AIComponentB;
+		}
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
 		if(AIComponent.tag == "player_black"){
 			AIColor = GameMainScript.instance.Black;

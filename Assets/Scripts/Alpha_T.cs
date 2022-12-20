@@ -4,7 +4,9 @@ using System;
 using UnityEngine;
 public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 {
-	[SerializeField] private GameObject AIComponent; //GameMainにAIをつける駒を設定する必要ある
+	public GameObject AIComponent = null; //GameMainにAIをつける駒を設定する必要ある
+	public GameObject AIComponentW; //GameMainにAIをつける駒を設定必要ある
+	public GameObject AIComponentB; //GameMainにAIをつける駒を設定必要ある
 	public static Alpha_T instance;
 	private GameObject[] AIPieces; //AIがコントロールする駒の配列
 	private int AIColor; //AI駒の色
@@ -18,16 +20,17 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 		}
 	}
 	void Start(){
-		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
-		row = GameMainScript.instance.row;
-		line = GameMainScript.instance.line;
-		Black = GameMainScript.instance.Black;
-		White = GameMainScript.instance.White;
 		if(AIComponent.tag == "player_black"){
 			AIColor = GameMainScript.instance.Black;
 		}else if(AIComponent.tag == "player_white"){
 			AIColor = GameMainScript.instance.White;
 		}
+		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
+		row = GameMainScript.instance.row;
+		line = GameMainScript.instance.line;
+		Black = GameMainScript.instance.Black;
+		White = GameMainScript.instance.White;
+		
 	}
 	public void AIScript(int[,] board_stateAI,int AIColor){
 		abAIways(board_stateAI,AIColor);
