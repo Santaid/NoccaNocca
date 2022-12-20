@@ -31,7 +31,8 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 	}
 	public void AIScript(int[,] board_stateAI,int AIColor){
 		abAIways(board_stateAI,AIColor);
-		Debug.Log("from_x"+from_x+"from_z"+from_z+"to_x"+to_x+"to_z"+to_z+"score"+score);		
+		Debug.Log("from_x"+from_x+"from_z"+from_z+"to_x"+to_x+"to_z"+to_z+"score"+score);
+		// Debug.Log("current score: "+evaluate(board_stateAI));
 	}
 	public void abAIways(int[,] board_state,int turn){
 		int findinglimit = 7;//何手先まで読むか　最大７くらい
@@ -175,11 +176,13 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 		int score=0;
 		for(int r=1; r<=row; r++){
 			// 勝敗が確定する盤面
-			if(board[r,1]==12){
-				score=(AIColor==Black? -10000:10000);
+			if(board[r,1]==9){
+				// 実質的に白の駒に２個を抑えられてる状態
+				score-=10000;
 			}
-			if(board[r,line]==9){
-				score+=(AIColor==Black? 10000:-10000);
+			if(board[r,line]==12){
+				// 実質的に白の駒２個を抑えてる状態
+				score+=10000;
 			}
 
 			for(int c=1; c<=line; c++){
@@ -187,8 +190,16 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 				if(board_val==0){// 空白のマスは何もしない
 				}else if(board_val==1|| board_val==3 || board_val==4 || (board_val>=7 && board_val<=10)){
 					score+=(1<<c); //黒のとき
+					if(board_val==10){
+						// 黒が白を2個押さえたら勝ち確
+						score+=10000;
+					}
 				}else{
 					score-=(1<<(line+1-c)); //白のとき
+					if(board_val==11){
+						// 白が黒を2個押さえたら負け確
+						score-=10000;
+					}
 				}
 			}
 		}

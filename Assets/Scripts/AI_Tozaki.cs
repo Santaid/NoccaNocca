@@ -71,8 +71,6 @@ public class AI_Tozaki : MonoBehaviour
 		}else{
 			layer=3;
 		}
-		Debug.Log("boardVal " + boardVal);
-		Debug.Log("layer" + layer);
 
 		switch(layer){
 			case 1:
@@ -190,7 +188,4 @@ public class AI_Tozaki : MonoBehaviour
 		}
 	}
 	#endregion
-
-    
-
 }
