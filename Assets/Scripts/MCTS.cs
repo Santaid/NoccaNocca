@@ -371,7 +371,10 @@ public class MonteAI{
         double rate=0.0;
         int k=0;
         foreach(int key in dict.Keys){
-            double _rate=(double)dict[key][1]/(double)dict[key][0];
+            // 勝率のレート
+            // double _rate=(double)dict[key][1]/(double)dict[key][0];
+            // 
+            double _rate=upperConfidenceBound(dict[key][0],allSimCount,dict[key][1]);
             // test
             // Console.Write("("+((key>>12)&0xf)+","+((key>>8)&0xf)+") -> ");
             // Console.Write("("+((key>>4)&0xf)+","+(key&0xf)+")");
