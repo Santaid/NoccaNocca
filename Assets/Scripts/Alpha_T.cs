@@ -35,7 +35,7 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 	public void AIScript(int[,] board_stateAI,int AIColor){
 		abAIways(board_stateAI,AIColor);
 		Debug.Log("from_x"+from_x+"from_z"+from_z+"to_x"+to_x+"to_z"+to_z+"score"+score);
-		Debug.Log("NBX: "+tuginotebit[0]+" AFy: "+tuginotebit[1]+" AITX: "+tuginotebit[2]+" AITY: "+tuginotebit[3]+"Score:"+ENDscorebit);
+	//	Debug.Log("NBX: "+tuginotebit[0]+" AFy: "+tuginotebit[1]+" AITX: "+tuginotebit[2]+" AITY: "+tuginotebit[3]+"Score:"+ENDscorebit);
 		// Debug.Log("current score: "+evaluate(board_stateAI));
 	}
     int[] tuginotebit;int ENDscorebit;int edabit;
@@ -44,12 +44,12 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 	
 		negaalphabit(-50000000, 50000000, findinglimit,downsizeab(board_state), turn);
 		//negaalpha(int.MinValue,int.MaxValue...)とすると、-1*int.MinValueがオーバーフローする
-		int[] finalscore = maxlevelab(int.MinValue,int.MaxValue,findinglimit,findinglimit,board_state,turn,-1,-1,-1,-1);
-		from_x = finalscore[0];
-		from_z = finalscore[1];
-		to_x = finalscore[2];
-		to_z = finalscore[3];
-		score = finalscore[4];
+	//	int[] finalscore = maxlevelab(int.MinValue,int.MaxValue,findinglimit,findinglimit,board_state,turn,-1,-1,-1,-1);
+	//	from_x = finalscore[0];
+	//	from_z = finalscore[1];
+	//	to_x = finalscore[2];
+	//	to_z = finalscore[3];
+	//	score = finalscore[4];
 	}
 	//nega-alpha法
 	int negaalphabit(int alpha,int beta ,int limit,/*int[,] board_state,*/int[] board_bit,int turn) {//bitの方
@@ -115,7 +115,7 @@ Canmovepieces = MovePieces(Newboard_tok(board_state),turn);
 //		Array.Copy(board_state, board_statecop, board_state.Length);	
 //   move(m/6+1, m%6+1,(m/6+1)+(f/3-1),(m%6+1)+(f%3-1),board_statecop,turn);
       int [] newboard_bit = movebit(m,f,board_bit,turn);
-          int score = -1*negaalphabit(-beta,-alpha,limit - 1,/*board_statecop,*/newboard_bit,Opponent(turn));//次の相手の手
+          int score = -1*negaalphabit(-beta,-alpha,limit - 1,/*board_statecop,*/newboard_bit,3-turn);//次の相手の手 3-turnは相手
   //ここを削ればnegamaxになる
       if (score >= beta) {
      // beta値を上回ったら探索を中止
@@ -127,6 +127,12 @@ if(score>score_max){
 	alpha = Math.Max(alpha, score_max);//α値を更新
 	if (findinglimit == limit){//Console.WriteLine("tansakutyuu"+ss[0]+" "+ss[1]+" "+ss[2]+" "+ss[3]);
 	tuginotebit = new int[4]{m/6+1, m%6+1,(m/6+1)+(f/3-1),(m%6+1)+(f%3-1)};ENDscorebit = score;
+
+		from_x = m/6+1;
+		from_z = m%6+1;
+		to_x = (m/6+1)+(f/3-1);
+		to_z = (m%6+1)+(f%3-1);
+		this.score = score;
 	}
 
 }
@@ -377,6 +383,7 @@ bool DecideJudgebit(int[] board_bit,int turn){
         return n;
     }
 
+/*
 	//alpha-beta法
 	//自分の手の最大を探る 
 	int[] maxlevelab(int alpha,int beta ,int limit,int Flimit,int[,] board_state,int turn,int fft,int ffy,int ftt,int fty) {
@@ -551,4 +558,6 @@ bool DecideJudgebit(int[] board_bit,int turn){
 		}
 		return newboard;
 	}
+	*/
 }
+
