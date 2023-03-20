@@ -54,6 +54,8 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 		to_z = finalscore[3];
 		score = finalscore[4];
 	}
+
+	
 	//alpha-beta法
 	//自分の手の最大を探る 
 	int[] maxlevelab(int alpha,int beta ,int limit,int Flimit,int[,] board_state,int turn,int fft,int ffy,int ftt,int fty) {
