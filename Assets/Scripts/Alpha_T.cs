@@ -193,9 +193,9 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 		Array.Copy(board_bit, board_bitcop, board_bit.Length);	 
 
         //駒を減らす　0にすることで1を0にする 
-        board_bitcop[3*(turn-1)] &= (~board_bit[3*(turn-1)] | board_bit[3*(turn-1)+1] |board_bit[3*(turn-1)+2]|~(1<<point));//一段目
+        board_bitcop[3*(turn-1)] &= (board_bit[3*(turn-1)+1] |board_bit[3*(turn-1)+2]|~(1<<point));//一段目
         // 110 -> 1 101 -> 1 100 -> 0 111-> 1　となるような値を取る
-        board_bitcop[3*(turn-1)+1] &= (~board_bit[3*(turn-1)+1] | board_bit[3*(turn-1)+2]|~(1<<point));//二段目
+        board_bitcop[3*(turn-1)+1] &= (board_bit[3*(turn-1)+2]|~(1<<point));//二段目
         // 10 -> 0 11 -> 1　となるような値を取る
         board_bitcop[3*(turn-1)+2] &= ~(1<<point);//三段目
         // 必ず0
