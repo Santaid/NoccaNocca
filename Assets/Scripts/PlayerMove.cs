@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit)){
-				if(destinations.Contains(hit.collider.gameObject) && hit.collider.gameObject != this.gameObject){ // 移動先が合法かどうか
+				if(destinations.Contains(hit.collider.gameObject) && hit.collider.gameObject != this.gameObject){ //移動先が合法かどうか
 					destination = hit.collider.gameObject;
 					DestinationIsSelected = true;
 					Move();

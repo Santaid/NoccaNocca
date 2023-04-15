@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadingGame : MonoBehaviour
+public class NormalMode : MonoBehaviour
 {
     public void LoadScene(){
-        SceneManager.LoadScene("Difficulty_Select");
+        SceneManager.LoadScene("Normal_Mode");
     }
 }
