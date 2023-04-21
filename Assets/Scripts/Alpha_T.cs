@@ -33,11 +33,44 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 		
 	}
 	public void AIScript(int[,] board_stateAI,int AIColor){
+     //   int[] down = downsizeab(board_stateAI);
+    //  for (int i = 0; i < 6; i++)
+      //  {
+        //    Debug.Log(i+": "+down[i]);
+       // }
 		abAIways(board_stateAI,AIColor);
 		Debug.Log("from_x"+from_x+"from_z"+from_z+"to_x"+to_x+"to_z"+to_z+"score"+score);
 		// Debug.Log("current score: "+evaluate(board_stateAI));
 	}
+/*
+		public int[] downsizeab(int[,] board_2d){//送られた盤面を変換
+		int[] board_1d=new int[6];
+		for(int f=1;f<row+1;f++){
+			for (int g=1;g<line+1;g++){
+				int help1,help2;
+				if(board_2d[f,g]>= 11){help1 = White;board_1d[5]+=1<<(6*(f-1)+g-1);}
+				else if(board_2d[f,g] >= 7){help1 = Black;board_1d[2]+=1<<(6*(f-1)+g-1);}
+				else help1 = 0;//一番高い
+				if(board_2d[f,g]-(4*help1)>=5){help2 = White;board_1d[4]+=1<<(6*(f-1)+g-1);}
+				else if (board_2d[f,g]-(4*help1)>=3){help2 = Black;board_1d[1]+=1<<(6*(f-1)+g-1);}
+				else help2 = 0;//二番目
+				if(board_2d[f,g]-(4*help1)-(2*help2)>=2){board_1d[3]+=1<<(6*(f-1)+g-1);}
+				else if (board_2d[f,g]-(4*help1)-(2*help2)>=1){board_1d[0]+=1<<(6*(f-1)+g-1);}
+				//三番目
+			}
+		}
+		return board_1d;
+	}
+*/
+
 	public void abAIways(int[,] board_state,int turn){
+//		     int[,] m = board_state;
+  //      for (int i = 1; i <= 5; i++)
+    //    {
+      //      Debug.Log(i+"列目:" + m[i, 1] + " " + m[i, 2] + " " + m[i, 3] + " " + m[i, 4] + " " + m[i, 5] + " " + m[i, 6]);
+        //}
+
+
 		int findinglimit = 7;//何手先まで読むか　最大７くらい
 		List<int[]> Selectways =new List<int[]>();	
 		Canmovepieces = MovePieces(Change_state_to_top(board_state),turn);	
