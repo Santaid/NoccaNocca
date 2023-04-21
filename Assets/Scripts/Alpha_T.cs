@@ -62,7 +62,7 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 		return board_1d;
 	}
 */
-
+//
 	public void abAIways(int[,] board_state,int turn){
 //		     int[,] m = board_state;
   //      for (int i = 1; i <= 5; i++)
