@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-public class AI_Tozaki : MonoBehaviour
+public class AI_Tozaki1 : MonoBehaviour
 {
 	private GameObject AIComponent = null; //GameMainにAIをつける駒を設定必要ある
 	[SerializeField] private GameObject AIComponentW; //GameMainにAIをつける駒を設定必要ある
@@ -18,7 +18,7 @@ public class AI_Tozaki : MonoBehaviour
 	private bool agent_predicting = false;
 	public bool White;
 	public bool Black;
-	public static AI_Tozaki instance;
+	public static AI_Tozaki1 instance;
 
 	public void Awake(){
 		if(instance == null){
@@ -29,10 +29,10 @@ public class AI_Tozaki : MonoBehaviour
 	void Start(){
 		if(White == true){
 			AIComponent = AIComponentW;
-			Alpha_T.instance.AIComponent = Alpha_T.instance.AIComponentW;
+			Alpha_T1.instance.AIComponent = Alpha_T1.instance.AIComponentW;
 		}else if(Black == true){
 			AIComponent = AIComponentB;
-			Alpha_T.instance.AIComponent = Alpha_T.instance.AIComponentB;
+			Alpha_T1.instance.AIComponent = Alpha_T1.instance.AIComponentB;
 		}
 		AIPieces = GameObject.FindGameObjectsWithTag(AIComponent.tag);
 		if(AIComponent.tag == "player_black"){

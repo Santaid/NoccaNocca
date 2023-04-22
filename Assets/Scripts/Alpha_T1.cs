@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
+public class Alpha_T1 : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 {
 	public GameObject AIComponent = null; //GameMainにAIをつける駒を設定する必要ある
 	public GameObject AIComponentW; //GameMainにAIをつける駒を設定必要ある
 	public GameObject AIComponentB; //GameMainにAIをつける駒を設定必要ある
-	public static Alpha_T instance;
+	public static Alpha_T1 instance;
 	private GameObject[] AIPieces; //AIがコントロールする駒の配列
 	private int AIColor; //AI駒の色
 	private int row,line,Black,White;
@@ -18,9 +18,9 @@ public class Alpha_T : MonoBehaviour//MonoBehaviourやUnity系は必要か不明
 		}
 	}
 	void Start(){
-		if(AI_Tozaki.instance.White == true){
+		if(AI_Tozaki1.instance.White == true){
 			AIComponent = AIComponentW;
-		}else if(AI_Tozaki.instance.Black == true){
+		}else if(AI_Tozaki1.instance.Black == true){
 			AIComponent = AIComponentB;
 		}
 		if(AIComponent.tag == "player_black"){
